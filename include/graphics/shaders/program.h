@@ -1,0 +1,59 @@
+#ifndef OPENGL_PROGRAM_H
+#define OPENGL_PROGRAM_H
+
+#include <graphics/shaders/shader.h>
+
+namespace gl {
+
+    class ShaderProgram {
+    private:
+        uint32_t id;
+        uint32_t vShader;
+        uint32_t fShader;
+    public:
+        explicit ShaderProgram(
+                const gl::Shader &shader
+        ) {
+            id = glCreateProgram();
+            vShader = shader.getVertex().exportShader(GL_VERTEX_SHADER);
+            fShader = shader.getFragment().exportShader(GL_FRAGMENT_SHADER);
+            glAttachShader(id, vShader);
+            glAttachShader(id, fShader);
+            glCall(glLinkProgram(id));
+            int32_t result;
+            glCall(glGetProgramiv(id, GL_LINK_STATUS, &result));
+            if (result == GL_FALSE) {
+                int32_t length;
+                glCall(glGetProgramiv(id, GL_INFO_LOG_LENGTH, &length));
+                if (length <= 0) {
+                    std::cerr<< "Error while linking program @ " << id << ", no message given";
+                } else {
+                    char *linkError = new char[length];
+                    glCall(glGetProgramInfoLog(id, length, &length, linkError));
+                    std::cerr<< "Error while linking program @ " << id << ": \"" << linkError << "\"";
+                    delete[] linkError;
+                    glCall(glDeleteProgram(id));
+                    throw std::runtime_error("Program linking failed!");
+                }
+
+
+            }
+            glCall(glValidateProgram(id));
+            /*glCall(glDeleteShader(fragmentShaderID));
+            glCall(glDeleteShader(vertexShaderID));*/
+        }
+
+        uint32_t getId() const {
+            return id;
+        }
+
+        uint32_t getVShader() const {
+            return vShader;
+        }
+
+        uint32_t getFShader() const {
+            return fShader;
+        }
+    };
+}
+#endif
