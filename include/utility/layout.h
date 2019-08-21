@@ -27,7 +27,7 @@ namespace gl {
             return elementLength;
         }
 
-        uint8_t getElementCount() const {
+        uint8_t getCount() const {
             return elementCount;
         }
 
@@ -35,7 +35,10 @@ namespace gl {
             return elementLength * elementCount;
         }
 
-        friend std::ostream &operator<<(std::ostream &os, const LayoutElement &element);
+        friend std::ostream &operator<<(std::ostream &os, const LayoutElement &element) {
+            os << "elementLength: " << element.elementLength << " elementCount: " << element.elementCount;
+            return os;
+        }
     };
 
 

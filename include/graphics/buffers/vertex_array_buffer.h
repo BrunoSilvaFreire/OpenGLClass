@@ -1,6 +1,7 @@
 #ifndef OPENGL_VERTEX_ARRAY_BUFFER_H
 #define OPENGL_VERTEX_ARRAY_BUFFER_H
 
+#include <utility/debugging.h>
 #include "graphics/binding.h"
 
 namespace gl {
@@ -12,26 +13,44 @@ namespace gl {
 
         }
 
-        void bind() {
+        void bind() const {
             glBindVertexArray(id);
         }
 
-        static VertexArrayBuffer createAndBind(const VertexLayout &layout) {
+        static VertexArrayBuffer createFor(
+                const VertexLayout &layout,
+                const IndexBuffer &ibo,
+                const VertexBuffer &vbo
+        ) {
             uint32_t id;
-            glCreateVertexArrays(1, &id);
+            glCall(glCreateVertexArrays(1, &id));
             VertexArrayBuffer buffer(id);
             buffer.bind();
+            ibo.bind();
+            vbo.bind();
             const auto &elements = layout.getElements();
-            uint32_t offset;
+            uint32_t offset = 0;
             uint8_t stride = layout.getStride();
             for (size_t i = 0; i < elements.size(); ++i) {
                 auto &e = elements[i];
-                glEnableVertexAttribArray(i);
-                glVertexAttribPointer(
-                        i, e.getElementCount(), e.getType(), false, stride, nullptr
+                glCall(glEnableVertexAttribArray(i));
+                glCall(
+                        glVertexAttribPointer(
+                                i,
+                                e.getCount(),
+                                e.getType(),
+                                e.isNormalized(),
+                                stride,
+                                reinterpret_cast<const void *>(offset)
+                        )
                 );
+                offset += e.getSize();
             }
             return buffer;
+        }
+
+        static void unbind() {
+            glBindVertexArray(0);
         }
     };
 }

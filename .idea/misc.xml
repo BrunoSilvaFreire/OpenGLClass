@@ -7,9 +7,9 @@
       <file path="$PROJECT_DIR$/shaders" />
       <file path="$PROJECT_DIR$/src" />
     </sourceRoots>
-    <libraryRoots>
+    <excludeRoots>
       <file path="$PROJECT_DIR$/thirdparty" />
-    </libraryRoots>
+    </excludeRoots>
   </component>
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />

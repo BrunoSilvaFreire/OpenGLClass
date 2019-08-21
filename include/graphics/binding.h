@@ -8,6 +8,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <cstddef>
+#include <utility/debugging.h>
+
+#define bind_scope(obj) obj.bind();\
 
 namespace gl {
 
@@ -18,11 +21,21 @@ namespace gl {
     public:
         explicit BindableMixin(uint32_t id) : id(id) {}
 
+        static void unbind() {
+            glCall(
+                    glBindBuffer(
+                            TARGET,
+                            0
+                    )
+            );
+        }
 
-        void bind() {
-            glBindBuffer(
-                    TARGET,
-                    id
+        void bind() const {
+            glCall(
+                    glBindBuffer(
+                            TARGET,
+                            id
+                    )
             );
         }
 

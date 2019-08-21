@@ -9,7 +9,7 @@
 namespace gl {
 
 
-    class IndexBuffer : public BindableMixin<GL_INDEX_ARRAY_BUFFER_BINDING> {
+    class IndexBuffer : public BindableMixin<GL_ELEMENT_ARRAY_BUFFER> {
     private:
         uint32_t *data;
         size_t length;
@@ -22,8 +22,10 @@ namespace gl {
             IndexBuffer buf(id, data, length);
             buf.bind();
             glBufferData(
-                    GL_INDEX_ARRAY_BUFFER_BINDING, length * sizeof(uint32_t),
-                    data, GL_TRIANGLES
+                    GL_ELEMENT_ARRAY_BUFFER,
+                    length * sizeof(uint32_t),
+                    data,
+                    GL_STATIC_DRAW
             );
             return buf;
         }

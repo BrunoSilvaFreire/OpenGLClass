@@ -31,14 +31,17 @@ namespace gl {
         static Geometry from(
                 const VertexLayout &layout,
                 void *vData,
-                size_t vLength,
+                size_t vCount,
                 uint32_t *iData,
-                size_t iLength,
+                size_t iCount,
                 const Material &material
         ) {
-            VertexArrayBuffer vao = VertexArrayBuffer::createAndBind(layout);
-            VertexBuffer vBuf = VertexBuffer::createAndPush(layout, vData, vLength);
-            IndexBuffer iBuf = IndexBuffer::createAndPush(iData, iLength);
+            VertexBuffer vBuf = VertexBuffer::createAndPush(layout, vData, vCount);
+            IndexBuffer iBuf = IndexBuffer::createAndPush(iData, iCount);
+            VertexArrayBuffer vao = VertexArrayBuffer::createFor(layout, iBuf, vBuf);
+            VertexArrayBuffer::unbind();
+            VertexBuffer::unbind();
+            IndexBuffer::unbind();
             return Geometry(vBuf, iBuf, vao, material);
         }
 
@@ -72,6 +75,12 @@ namespace gl {
                             GL_UNSIGNED_INT, nullptr
                     )
             );
+        }
+
+        void bind() const {
+            vertexArray.bind();
+            vBuf.bind();
+            iBuf.bind();
         }
     };
 }

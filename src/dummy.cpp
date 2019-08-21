@@ -2,19 +2,43 @@
 #include <graphics/graphics.h>
 #include <array>
 #include <entityx/entityx.h>
+#include <cmath>
 #include <filesystem>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
 
 gl::Geometry createTriangle() {
 
-    std::array<glm::vec3, 3> triangle = {
-            glm::vec3(-0.5, -0.5, 0),
-            glm::vec3(0.5, -0.5, 0),
-            glm::vec3(0, 0.5, 0)
+    std::vector<glm::vec3> triangle = {
+            glm::vec3(1.0, -1.0, 1.0),
+            glm::vec3(1.0, -1.0, 1.0),
+            glm::vec3(1.0, 1.0, 1.0),
+            glm::vec3(-1.0, 1.0, 1.0),
+            // back
+            glm::vec3(-1.0, -1.0, -1.0),
+            glm::vec3(1.0, -1.0, -1.0),
+            glm::vec3(1.0, 1.0, -1.0),
+            glm::vec3(-1.0, 1.0, -1.0)
     };
-    std::array<uint32_t, 3> indices = {
-            0, 1, 2
+    std::vector<uint32_t> indices = {
+            // front
+            0, 1, 2,
+            2, 3, 0,
+            // right
+            1, 5, 6,
+            6, 2, 1,
+            // back
+            7, 6, 5,
+            5, 4, 7,
+            // left
+            4, 0, 3,
+            3, 7, 4,
+            // bottom
+            4, 5, 1,
+            1, 0, 4,
+            // top
+            3, 2, 6,
+            6, 7, 3
     };
     std::filesystem::path workingDir = "/home/bruno/CLionProjects/OpenGL";
     std::filesystem::path resDir = workingDir / "shaders";
@@ -31,33 +55,14 @@ gl::Geometry createTriangle() {
     return gl::Geometry::from(
             gl::VertexLayout(
                     {
-                            gl::VertexElement(sizeof(float), 3, GL_FLOAT)
+                            gl::VertexElement(sizeof(float), 3, GL_FLOAT, false)
                     }
             ),
-            triangle.data(), sizeof(triangle),
-            indices.data(), sizeof(indices),
+            triangle.data(), triangle.size(),
+            indices.data(), indices.size(),
             gl::Material(shader)
     );
 }
-
-class DummySystem : public entityx::System<DummySystem> {
-private:
-    gl::Geometry geometry;
-public:
-    DummySystem() : geometry(createTriangle()) {
-
-    }
-
-private:
-    void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {
-        auto mvpLocation = glGetUniformLocation(geometry.getProgram().getId(), "mvp");
-        auto mvp = glm::identity<glm::mat4>();
-        //std::cout << glm::to_string(mvp) << std::endl;
-        glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, reinterpret_cast<float *>(&mvp));
-
-        geometry.draw();
-    }
-};
 
 struct Closer : entityx::System<Closer> {
 private:
@@ -73,10 +78,54 @@ public:
     }
 };
 
+struct Sine : entityx::System<Sine> {
+private:
+    entityx::ComponentHandle<gl::Translation> t;
+    float time = 0;
+    float speed;
+public:
+    Sine(const entityx::ComponentHandle<gl::Translation> &t, float speed) : t(t), speed(speed) {}
+
+    void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {
+        time += dt * speed;
+        gl::Translation &tr = *t;
+        tr.value.z = -10 + std::sin(time) * 5;
+
+    }
+};
+
 int main() {
     gl::Application application(glm::u32vec2(600, 400), "OpenGL");
     auto &systems = application.getSystems();
-    systems.add<DummySystem>();
+    auto e = application.getEntities().create();
+    auto camera = application.getEntities().create();
+    camera.assign<gl::WorldToView>();
+    auto t = camera.assign_from_copy<gl::Translation>(
+            {
+                    glm::vec3(0, 0, -10)
+            }
+    );
+    //camera.assign<gl::Rotation>();
+    camera.assign_from_copy<gl::Navigator>(
+            {
+                    1.0F, 1.0F
+            }
+    );
+    camera.assign_from_copy<gl::Camera>(
+            {
+                    60.0F,
+                    0.01F,
+                    100.0F
+            }
+    );
+    systems.add<Sine>(t, 5);
+    e.assign<gl::ModelToWorld>();
+    e.assign_from_copy<gl::Drawable>(
+            {
+                    "mvpMatrix",
+                    createTriangle()
+            }
+    );
     systems.add<Closer>(&application);
     application.show();
     application.run();
