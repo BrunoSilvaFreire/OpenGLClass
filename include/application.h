@@ -44,6 +44,9 @@ namespace gl {
             std::cout << "OpenGL '" << glGetString(GL_VERSION) << "' succesfully initialized (GLFW: "
                       << glfwGetVersionString()
                       << ")" << std::endl;
+            //glDepthMask(GL_FALSE);
+            glDepthFunc(GL_LESS);
+            glEnable(GL_DEPTH_TEST);
             ecs.systems.add<NavigationSystem>(window);
             ecs.systems.add<TransformSystem>();
             ecs.systems.add<ViewSystem>();

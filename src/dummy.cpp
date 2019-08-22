@@ -95,7 +95,7 @@ public:
 };
 
 int main() {
-    gl::Application application(glm::u32vec2(600, 400), "OpenGL");
+    gl::Application application(glm::u32vec2(1920, 1080), "OpenGL");
     auto &systems = application.getSystems();
     auto e = application.getEntities().create();
     auto camera = application.getEntities().create();
@@ -105,10 +105,14 @@ int main() {
                     glm::vec3(0, 0, -10)
             }
     );
-    //camera.assign<gl::Rotation>();
+    /*camera.assign_from_copy<gl::Rotation>(
+            {
+                    glm::quat_identity<float, glm::qualifier::defaultp>()
+            }
+    )*/;
     camera.assign_from_copy<gl::Navigator>(
             {
-                    1.0F, 1.0F
+                    1.0F, .05F
             }
     );
     camera.assign_from_copy<gl::Camera>(
@@ -118,7 +122,7 @@ int main() {
                     100.0F
             }
     );
-    systems.add<Sine>(t, 5);
+    systems.add<Sine>(t, 2);
     e.assign<gl::ModelToWorld>();
     e.assign_from_copy<gl::Drawable>(
             {

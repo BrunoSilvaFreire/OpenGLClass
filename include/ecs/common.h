@@ -119,8 +119,8 @@ namespace gl {
 #define DEG_TO_RAD 0.0174533F
 
         void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClearColor(0.1F, 0.1F, 0.1F, 1);
-            glClear(GL_COLOR_BUFFER_BIT);
             entityx::ComponentHandle<Camera> hCamera;
             entityx::ComponentHandle<WorldToView> hView;
             for (entityx::Entity _ : entities.entities_with_components(hCamera, hView)) {
@@ -168,14 +168,14 @@ namespace gl {
     struct NavigationSystem : entityx::System<NavigationSystem> {
     private:
         GLFWwindow *wnd;
-        double lastMouseX, lastMouseY;
+        double lastMouseX = 0, lastMouseY = 0;
 
         double getInput(GLFWwindow *window, int32_t positive, int32_t negative) {
             return (glfwGetKey(window, positive) - glfwGetKey(window, negative));
         }
 
     public:
-        NavigationSystem(GLFWwindow *wnd) : wnd(wnd) {}
+        explicit NavigationSystem(GLFWwindow *wnd) : wnd(wnd) {}
 
         void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {
             entityx::ComponentHandle<Navigator> hNav;
@@ -189,9 +189,15 @@ namespace gl {
                 glm::vec3 right(1, 0, 0);
                 auto &trans = *hTrans;
                 auto hRot = e.component<Rotation>();
+                bool reset = glfwGetKey(wnd, GLFW_KEY_R);
+                if (reset) {
+                    trans.value = glm::vec3(0, 0, -10);
+                }
                 if (hRot) {
                     auto &rot = *hRot;
-
+                    if (reset) {
+                        rot.value = glm::quat(1, 0, 0, 0);
+                    }
                     double newMouseX, newMouseY;
                     glfwGetCursorPos(wnd, &newMouseX, &newMouseY);
                     auto dX = newMouseX - lastMouseX;
@@ -199,8 +205,9 @@ namespace gl {
                     lastMouseX = newMouseX;
                     lastMouseY = newMouseY;
                     auto rotV = glm::eulerAngles(rot.value);
-                    rotV.y += dX * (nav.angularSpeed * speed);
-                    rotV.x -= dY * (nav.angularSpeed * speed);
+                    rotV.y += dX * nav.angularSpeed * dt;
+                    rotV.x -= dY * nav.angularSpeed * dt;
+                    std::cout << glm::to_string(rotV) << std::endl;
 
                     rot.value = glm::quat(rotV);
                     fwd = gl::forward(rot);
