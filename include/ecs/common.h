@@ -196,7 +196,7 @@ namespace gl {
                 if (hRot) {
                     auto &rot = *hRot;
                     if (reset) {
-                        rot.value = glm::quat(1, 0, 0, 0);
+                        rot.value = glm::quat(glm::vec3(0, 0, 0));
                     }
                     double newMouseX, newMouseY;
                     glfwGetCursorPos(wnd, &newMouseX, &newMouseY);
@@ -204,12 +204,16 @@ namespace gl {
                     auto dY = newMouseY - lastMouseY;
                     lastMouseX = newMouseX;
                     lastMouseY = newMouseY;
-                    auto rotV = glm::eulerAngles(rot.value);
-                    rotV.y += dX * nav.angularSpeed * dt;
-                    rotV.x -= dY * nav.angularSpeed * dt;
-                    std::cout << glm::to_string(rotV) << std::endl;
 
-                    rot.value = glm::quat(rotV);
+                    auto yaw = dY * nav.angularSpeed * dt +
+                            getInput(wnd, GLFW_KEY_LEFT, GLFW_KEY_RIGHT) * nav.angularSpeed * dt * 5;
+                    auto pitch = dY * nav.angularSpeed * dt +
+                            getInput(wnd, GLFW_KEY_UP, GLFW_KEY_DOWN) * nav.angularSpeed * dt * 5;
+                    glm::vec3 rotV(0, 0, 0);
+                    rotV.y += yaw;
+                    rotV.z = pitch;
+                    rot.value *= glm::quat(rotV);
+
                     fwd = gl::forward(rot);
                     up = gl::up(rot);
                     right = gl::right(rot);

@@ -73,8 +73,10 @@ namespace gl {
         void run() {
             running = true;
             while (running) {
+
                 ecs.systems.update_all(1 / 60.0F);
                 glfwPollEvents();
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
                 if (glfwWindowShouldClose(window)) {
                     running = false;
                 }

@@ -105,14 +105,14 @@ int main() {
                     glm::vec3(0, 0, -10)
             }
     );
-    /*camera.assign_from_copy<gl::Rotation>(
+    camera.assign_from_copy<gl::Rotation>(
             {
                     glm::quat_identity<float, glm::qualifier::defaultp>()
             }
-    )*/;
+    );
     camera.assign_from_copy<gl::Navigator>(
             {
-                    1.0F, .05F
+                    5.0F, .1F
             }
     );
     camera.assign_from_copy<gl::Camera>(

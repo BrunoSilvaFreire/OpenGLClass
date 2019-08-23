@@ -3,6 +3,6 @@
 out vec3 color;
 
 void main() {
-    color = vec3(1, 0, 0) * gl_FragCoord.w;
+    color = vec3(1, 0, 0) ;
 
 }
