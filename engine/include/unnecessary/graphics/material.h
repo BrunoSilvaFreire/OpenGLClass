@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 #include <glm/glm.hpp>
-#include <graphics/shaders/shader.h>
+#include <unnecessary/graphics/shaders/shader.h>
 
 namespace gl {
 
@@ -31,23 +31,15 @@ namespace gl {
                 std::vector<FloatProperty> floats = {},
                 std::vector<IntProperty> ints = {},
                 std::vector<ColorProperty> colors = {}
-        ) : floats(std::move(floats)), ints(std::move(ints)), colors(std::move(colors)), shader(shader) {}
+        );
 
-        const std::vector<FloatProperty> &getFloats() const {
-            return floats;
-        }
+        const std::vector<FloatProperty> &getFloats() const;
 
-        const std::vector<IntProperty> &getInts() const {
-            return ints;
-        }
+        const std::vector<IntProperty> &getInts() const;
 
-        const std::vector<ColorProperty> &getColors() const {
-            return colors;
-        }
+        const std::vector<ColorProperty> &getColors() const;
 
-        Shader *getShader() const {
-            return shader;
-        }
+        Shader *getShader() const;
     };
 }
 #endif

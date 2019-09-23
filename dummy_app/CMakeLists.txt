@@ -1,0 +1,2 @@
+add_executable(dummy_app main.cpp)
+target_link_libraries(dummy_app unnecessary)

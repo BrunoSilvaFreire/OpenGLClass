@@ -20,25 +20,15 @@ namespace gl {
         LayoutElement(
                 uint8_t elementLength,
                 uint8_t elementCount
-        ) : elementLength(elementLength),
-            elementCount(elementCount) {}
+        );
 
-        uint8_t getElementLength() const {
-            return elementLength;
-        }
+        uint8_t getElementLength() const;
 
-        uint8_t getCount() const {
-            return elementCount;
-        }
+        uint8_t getCount() const;
 
-        uint8_t getSize() const {
-            return elementLength * elementCount;
-        }
+        uint8_t getSize() const;
 
-        friend std::ostream &operator<<(std::ostream &os, const LayoutElement &element) {
-            os << "elementLength: " << element.elementLength << " elementCount: " << element.elementCount;
-            return os;
-        }
+        friend std::ostream &operator<<(std::ostream &os, const LayoutElement &element);
     };
 
 

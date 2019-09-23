@@ -1,6 +1,7 @@
 set(OpenGL_GL_PREFERENCE GLVND)
 add_subdirectory(glew/build/cmake)
 add_subdirectory(glfw)
+
 set(GLM_TEST_ENABLE OFF GLOBAL CACHED)
 
 add_subdirectory(glm)

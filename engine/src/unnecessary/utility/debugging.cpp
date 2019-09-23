@@ -1,16 +1,6 @@
-#ifndef OPENGL_DEBUGGING_H
-#define OPENGL_DEBUGGING_H
-
-#include <GL/glew.h>
-#include <iostream>
+#include <unnecessary/utility/debugging.h>
 
 namespace gl {
-
-    void print_bound_target(uint32_t pName, const std::string &desc) {
-        int result;
-        glGetIntegerv(pName, &result);
-        std::cout << "Target '" << desc << "' bound @ " << result << std::endl;
-    }
 
     void print_bound_elements() {
 
@@ -19,12 +9,17 @@ namespace gl {
         print_bound_target(GL_ARRAY_BUFFER_BINDING, "Vertex Buffer");
         print_bound_target(GL_ELEMENT_ARRAY_BUFFER_BINDING, "Index Buffer");
     }
+
+    void print_bound_target(uint32_t pName, const std::string &desc) {
+        int result;
+        glGetIntegerv(pName, &result);
+        std::cout << "Target '" << desc << "' bound @ " << result << std::endl;
+    }
 }
 
 void glClearErrors() {
     while (glGetError() != GLEW_NO_ERROR);
 }
-
 
 void glCheckErrors(const std::string &functionName) {
     uint32_t error;
@@ -34,13 +29,3 @@ void glCheckErrors(const std::string &functionName) {
         std::cout << "Error while calling function " << functionName << ": " << error << std::endl;
     }
 }
-
-#define glCall(x) glClearErrors();\
-                  x;\
-                  glCheckErrors(#x);
-
-#define glDeclare(var, x)  glClearErrors();\
-                  auto var = x;\
-                  glCheckErrors(#x);
-
-#endif

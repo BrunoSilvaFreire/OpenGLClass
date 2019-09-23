@@ -1,5 +1,5 @@
-#include <application.h>
-#include <graphics/graphics.h>
+#include <unnecessary/application.h>
+#include <unnecessary/graphics/graphics.h>
 #include <array>
 #include <entityx/entityx.h>
 #include <cmath>
@@ -40,7 +40,8 @@ gl::Geometry createTriangle() {
             3, 2, 6,
             6, 7, 3
     };
-    std::filesystem::path workingDir = "/home/bruno/CLionProjects/OpenGL";
+    std::filesystem::path workingDir = std::filesystem::current_path();
+    std::cout << "Executing at " << workingDir << std::endl;
     std::filesystem::path resDir = workingDir / "shaders";
     //Allocate on heap
     std::cout << "Using resources located @ " << resDir << std::endl;

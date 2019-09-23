@@ -3,9 +3,9 @@
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="CidrRootsConfiguration">
     <sourceRoots>
-      <file path="$PROJECT_DIR$/include" />
-      <file path="$PROJECT_DIR$/shaders" />
-      <file path="$PROJECT_DIR$/src" />
+      <file path="$PROJECT_DIR$/engine/include" />
+      <file path="$PROJECT_DIR$/engine/shaders" />
+      <file path="$PROJECT_DIR$/engine/src" />
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/thirdparty" />
