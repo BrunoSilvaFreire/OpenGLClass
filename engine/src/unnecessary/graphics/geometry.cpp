@@ -48,17 +48,6 @@ namespace gl {
         return program;
     }
 
-    void Geometry::draw() {
-        vertexArray.bind();
-        glCall(glUseProgram(program.getId()));
-        glCall(
-                glDrawElements(
-                        GL_TRIANGLES,
-                        iBuf.getLength(),
-                        GL_UNSIGNED_INT, nullptr
-                )
-        );
-    }
 
     void Geometry::bind() const {
         vertexArray.bind();

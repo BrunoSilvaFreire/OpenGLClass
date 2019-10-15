@@ -18,3 +18,14 @@ target_include_directories(
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/glew/include>
 )
+
+add_library(
+        lodepng
+        lodepng/lodepng.h
+        lodepng/lodepng.cpp
+)
+target_include_directories(
+        lodepng
+        PUBLIC
+        lodepng
+)

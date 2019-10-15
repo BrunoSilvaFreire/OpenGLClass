@@ -6,6 +6,12 @@
       <file path="$PROJECT_DIR$/engine/include" />
       <file path="$PROJECT_DIR$/engine/shaders" />
       <file path="$PROJECT_DIR$/engine/src" />
+      <file path="$PROJECT_DIR$/modules/2d/include" />
+      <file path="$PROJECT_DIR$/modules/base/include" />
+      <file path="$PROJECT_DIR$/modules/base/src" />
+      <file path="$PROJECT_DIR$/modules/common_ecs/include" />
+      <file path="$PROJECT_DIR$/modules/common_ecs/src" />
+      <file path="$PROJECT_DIR$/modules/opengl_rendering/include" />
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/thirdparty" />

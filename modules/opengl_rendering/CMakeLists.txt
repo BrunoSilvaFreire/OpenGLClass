@@ -1,0 +1,10 @@
+set(
+        OPENGL_BUFFERS
+        include/unnecessary/graphics/buffers/index_buffer.h
+        include/unnecessary/graphics/buffers/vertex_array_buffer.h
+        include/unnecessary/graphics/buffers/vertex_buffer.h
+)
+unnecessary_module(
+        "opengl_rendering"
+        "OPENGL_ALL"
+)

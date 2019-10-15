@@ -22,14 +22,10 @@ namespace gl {
         //glDepthMask(GL_FALSE);
         glDepthFunc(GL_LESS);
         glEnable(GL_DEPTH_TEST);
-        ecs.systems.add<NavigationSystem>(window);
-        ecs.systems.add<TransformSystem>();
-        ecs.systems.add<ViewSystem>();
-        ecs.systems.add<RenderingSystem>(window);
-        ecs.systems.configure();
     }
 
     void Application::show() {
+        ecs.systems.configure();
         glfwShowWindow(window);
     }
 
@@ -53,7 +49,7 @@ namespace gl {
         running = true;
         while (running) {
 
-            ecs.systems.update_all(1.0F / 60.0F);
+            ecs.systems.update_all(1 / 60.0F);
             glfwPollEvents();
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
             if (glfwWindowShouldClose(window)) {

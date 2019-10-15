@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.14)
 project(UnnecessaryEngine LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
-
+include(cmake/Unnecessary.cmake)
 add_subdirectory(thirdparty)
+add_subdirectory(modules)
 add_subdirectory(engine)
 add_subdirectory(dummy_app)
