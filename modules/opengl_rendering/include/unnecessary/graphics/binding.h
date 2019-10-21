@@ -8,7 +8,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <cstddef>
-#include <unnecessary/utility/debugging.h>
+#include <unnecessary/graphics/utility/debugging.h>
 
 #define bind_scope(obj) obj.bind();\
 

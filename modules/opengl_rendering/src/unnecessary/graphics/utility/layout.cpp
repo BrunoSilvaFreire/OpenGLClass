@@ -1,9 +1,9 @@
-#include <unnecessary/utility/layout.h>
+#include <unnecessary/graphics/utility/layout.h>
 
 namespace gl {
 
     LayoutElement::LayoutElement(uint8_t elementLength, uint8_t elementCount) : elementLength(elementLength),
-                                                                                    elementCount(elementCount) {}
+                                                                                elementCount(elementCount) {}
 
     uint8_t LayoutElement::getElementLength() const {
         return elementLength;

@@ -7,9 +7,8 @@
 #include <glm/gtx/quaternion.hpp>
 
 #include <entityx/System.h>
-#include <unnecessary/graphics/graphics.h>
 #include <glm/gtx/string_cast.hpp>
-
+#include <unnecessary/application.h>
 namespace gl {
     struct Translation {
         glm::vec3 value;
@@ -25,15 +24,6 @@ namespace gl {
     };
     struct WorldToView {
         glm::mat4 value;
-    };
-    struct Camera {
-        float fieldOfView, nearPlane, farPlane;
-        glm::mat4 projection;
-    };
-
-    struct Drawable {
-        std::string mvpName;
-        Geometry geometry;
     };
 
 
@@ -55,18 +45,6 @@ namespace gl {
         void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override;
     };
 
-    struct RenderingSystem : entityx::System<RenderingSystem> {
-    private:
-        GLFWwindow *wnd;
-    public:
-        explicit RenderingSystem(GLFWwindow *wnd);
-
-#define PI 3.14159265359F
-#define RAD_TO_DEGREE 57.2957795F
-#define DEG_TO_RAD 0.0174533F
-
-        void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override;
-    };
 
     struct Navigator {
     public:
@@ -86,6 +64,9 @@ namespace gl {
 
         void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override;
     };
+    namespace ecs {
+        void register_default_systems(gl::Application &app);
+    }
 }
 
 #endif

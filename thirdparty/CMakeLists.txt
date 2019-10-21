@@ -5,7 +5,7 @@ add_subdirectory(glfw)
 set(GLM_TEST_ENABLE OFF GLOBAL CACHED)
 
 add_subdirectory(glm)
-target_compile_definitions(glm INTERFACE GLM_CONFIG_XYZW_ONLY)
+target_compile_definitions(glm_static INTERFACE GLM_FORCE_XYZW_ONLY)
 add_subdirectory(entityx)
 set(ENTITYX_BUILD_TESTING false GOBAL CACHED)
 target_include_directories(

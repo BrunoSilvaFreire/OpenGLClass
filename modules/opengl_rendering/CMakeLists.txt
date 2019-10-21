@@ -3,8 +3,54 @@ set(
         include/unnecessary/graphics/buffers/index_buffer.h
         include/unnecessary/graphics/buffers/vertex_array_buffer.h
         include/unnecessary/graphics/buffers/vertex_buffer.h
+        src/unnecessary/graphics/buffers/index_buffer.cpp
+        src/unnecessary/graphics/buffers/vertex_array_buffer.cpp
+        src/unnecessary/graphics/buffers/vertex_buffer.cpp
+)
+set(
+        OPENGL_RENDERING
+        include/unnecessary/graphics/ecs/rendering.h
+        src/unnecessary/graphics/ecs/rendering.cpp
+)
+set(
+        OPENGL_MISC
+        include/unnecessary/graphics/binding.h
+        include/unnecessary/graphics/geometry.h
+        include/unnecessary/graphics/graphics.h
+        include/unnecessary/graphics/material.h
+        include/unnecessary/graphics/texture.h
+
+        include/unnecessary/graphics/utility/debugging.h
+        include/unnecessary/graphics/utility/layout.h
+        src/unnecessary/graphics/utility/debugging.cpp
+        src/unnecessary/graphics/utility/layout.cpp
+
+        src/unnecessary/graphics/material.cpp
+        src/unnecessary/graphics/geometry.cpp
+)
+set(
+        OPENGL_SHADERS
+        include/unnecessary/graphics/shaders/program.h
+        include/unnecessary/graphics/shaders/shader.h
+        src/unnecessary/graphics/shaders/program.cpp
+        src/unnecessary/graphics/shaders/shader.cpp
+)
+set(
+        OPENGL_ALL
+        ${OPENGL_BUFFERS}
+        ${OPENGL_MISC}
+        ${OPENGL_SHADERS}
+        ${OPENGL_RENDERING}
 )
 unnecessary_module(
-        "opengl_rendering"
-        "OPENGL_ALL"
+        opengl_rendering
+        "${OPENGL_ALL}"
+)
+unnecessary_module_dependency(
+        opengl_rendering
+        "base;common_ecs"
+)
+unnecessary_module_libraries(
+        opengl_rendering
+        "glew_s;glfw;glm_static"
 )

@@ -1,7 +1,7 @@
 #ifndef OPENGL_VERTEX_ARRAY_BUFFER_H
 #define OPENGL_VERTEX_ARRAY_BUFFER_H
 
-#include <unnecessary/utility/debugging.h>
+#include <unnecessary/graphics/utility/debugging.h>
 #include <unnecessary/graphics/binding.h>
 #include <unnecessary/graphics/buffers/vertex_buffer.h>
 #include <unnecessary/graphics/buffers/index_buffer.h>

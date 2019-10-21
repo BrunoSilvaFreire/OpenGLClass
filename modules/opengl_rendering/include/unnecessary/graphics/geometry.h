@@ -8,7 +8,7 @@
 
 #include <utility>
 #include <unnecessary/graphics/shaders/program.h>
-#include <unnecessary/utility/debugging.h>
+#include <unnecessary/graphics/utility/debugging.h>
 
 namespace gl {
     class Geometry {

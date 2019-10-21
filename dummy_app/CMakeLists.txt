@@ -1,2 +1,2 @@
 add_executable(dummy_app main.cpp)
-target_link_libraries(dummy_app unnecessary)
+target_link_libraries(dummy_app unnecessary_opengl_rendering_s)

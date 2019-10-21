@@ -1,11 +1,13 @@
 #include <unnecessary/application.h>
 #include <unnecessary/graphics/graphics.h>
+#include <unnecessary/ecs/common.h>
 #include <array>
 #include <entityx/entityx.h>
 #include <cmath>
 #include <filesystem>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include <unnecessary/graphics/ecs/rendering.h>
 
 #define FLOOR_WIDTH 5
 #define FLOOR_HEIGHT 5
@@ -146,7 +148,8 @@ int main() {
                     gl::ShaderLayout({})
             )
     );
-
+    gl::ecs::register_default_systems(application);
+    gl::gl_rendering::register_default_systems(application);
     auto &systems = application.getSystems();
     auto camera = application.getEntities().create();
     camera.assign<gl::WorldToView>();

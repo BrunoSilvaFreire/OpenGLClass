@@ -7,7 +7,7 @@
 #include <ostream>
 #include <GL/glew.h>
 #include <unnecessary/graphics/binding.h>
-#include <unnecessary/utility/layout.h>
+#include <unnecessary/graphics/utility/layout.h>
 #include <sstream>
 
 namespace gl {

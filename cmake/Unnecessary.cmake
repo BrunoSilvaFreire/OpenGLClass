@@ -2,7 +2,7 @@
 function(create_unnecessary_module NAME TYPE SOURCES)
     list(LENGTH "${SOURCES}" TOTAL_FILES)
 
-    message(STATUS "Creating unnecessary module '${NAME}' with ${TOTAL_FILES} files @ '${SOURCES}'")
+    message(STATUS "Creating unnecessary module '${NAME}' (${TYPE})")
     add_library(
             unnecessary_${NAME}
             ${TYPE}
@@ -32,6 +32,7 @@ endfunction()
 
 function(unnecessary_module_libraries NAME LIBS)
     message("Module ${NAME} uses libraries ${LIBS}")
+
     target_link_libraries(
             unnecessary_${NAME}_s
             ${LIBS}

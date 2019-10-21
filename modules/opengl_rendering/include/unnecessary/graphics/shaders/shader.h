@@ -7,10 +7,11 @@
 #include <streambuf>
 #include <filesystem>
 #include <fstream>
-#include <unnecessary/utility/layout.h>
+#include <unnecessary/graphics/utility/layout.h>
 #include <GL/glew.h>
+
 #include <ostream>
-#include <unnecessary/utility/debugging.h>
+#include <unnecessary/graphics/utility/debugging.h>
 
 namespace gl {
     class ShaderElement : LayoutElement {
