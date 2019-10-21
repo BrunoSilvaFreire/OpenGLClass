@@ -44,13 +44,10 @@ set(
 )
 unnecessary_module(
         opengl_rendering
-        "${OPENGL_ALL}"
+        SOURCES ${OPENGL_ALL}
 )
-unnecessary_module_dependency(
+unnecessary_module_dependencies(
         opengl_rendering
-        "base;common_ecs"
-)
-unnecessary_module_libraries(
-        opengl_rendering
-        "glew_s;glfw;glm_static"
+        MODULES base common_ecs
+        LIBS glew_s glfw glm_static
 )

@@ -1,10 +1,11 @@
-set(
-        UNNECESSARY_BASE_SOURCES
-        include/unnecessary/application.h;
-        src/unnecessary/application.cpp
-)
+
 unnecessary_module(
         base
-        "${UNNECESSARY_BASE_SOURCES}"
+        SOURCES
+        include/unnecessary/application.h
+        src/unnecessary/application.cpp
 )
-unnecessary_module_libraries(base "glew_s;glfw;glm_static;entityx")
+unnecessary_module_dependencies(base
+        LIBS
+        glew_s;glfw;glm_static;entityx
+        )

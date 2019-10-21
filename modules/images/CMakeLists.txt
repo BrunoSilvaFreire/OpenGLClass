@@ -1,10 +1,11 @@
 unnecessary_module(
         images
-        "include/unnecessary/graphics/image.h"
+        SOURCES
+        include/unnecessary/graphics/image.h
 )
-
-unnecessary_module_libraries(
+unnecessary_module_dependencies(
         images
+        LIBS
         lodepng
 )
 add_executable(

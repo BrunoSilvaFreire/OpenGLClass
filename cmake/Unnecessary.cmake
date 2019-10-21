@@ -23,33 +23,19 @@ endfunction()
 function(
         unnecessary_module
         NAME
-        SOURCES
 )
-    create_unnecessary_module(${NAME}_s STATIC "${SOURCES}")
-    create_unnecessary_module(${NAME}_d SHARED "${SOURCES}")
-    create_unnecessary_module(${NAME}_m MODULE "${SOURCES}")
+    cmake_parse_arguments(PARSE_ARGV 0 unnecessary_module "" "" "SOURCES")
+
+    create_unnecessary_module(${NAME}_s STATIC "${unnecessary_module_SOURCES}")
+    create_unnecessary_module(${NAME}_d SHARED "${unnecessary_module_SOURCES}")
+    create_unnecessary_module(${NAME}_m MODULE "${unnecessary_module_SOURCES}")
 endfunction()
 
-function(unnecessary_module_libraries NAME LIBS)
-    message("Module ${NAME} uses libraries ${LIBS}")
 
-    target_link_libraries(
-            unnecessary_${NAME}_s
-            ${LIBS}
-    )
-    target_link_libraries(
-            unnecessary_${NAME}_d
-            ${LIBS}
-    )
-    target_link_libraries(
-            unnecessary_${NAME}_m
-            ${LIBS}
-    )
-endfunction()
-
-function(unnecessary_module_dependency NAME DEPENDENCIES)
-    foreach (dep ${DEPENDENCIES})
-        message("Including ${dep}")
+function(unnecessary_module_dependencies NAME)
+    cmake_parse_arguments(PARSE_ARGV 0 unnecessary_module_dependencies "" "" "MODULES;LIBS")
+    foreach (dep ${unnecessary_module_dependencies_MODULES})
+        message(STATUS "Uses module '${dep}'")
         target_link_libraries(
                 unnecessary_${NAME}_s
                 unnecessary_${dep}_s
@@ -60,4 +46,20 @@ function(unnecessary_module_dependency NAME DEPENDENCIES)
         )
 
     endforeach ()
+    foreach (lib ${unnecessary_module_dependencies_LIBS})
+        message(STATUS "Uses library '${lib}'")
+    endforeach ()
+
+    target_link_libraries(
+            unnecessary_${NAME}_s
+            ${unnecessary_module_dependencies_LIBS}
+    )
+    target_link_libraries(
+            unnecessary_${NAME}_d
+            ${unnecessary_module_dependencies_LIBS}
+    )
+    target_link_libraries(
+            unnecessary_${NAME}_m
+            ${unnecessary_module_dependencies_LIBS}
+    )
 endfunction()

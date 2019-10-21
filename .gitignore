@@ -131,6 +131,3 @@ CTestTestfile.cmake
 
 # Compiled Static libraries
 *.lai
-
-# Executables
-thirdparty/glew/auto
