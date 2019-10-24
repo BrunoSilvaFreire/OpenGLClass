@@ -51,3 +51,9 @@ unnecessary_module_dependencies(
         MODULES base common_ecs
         LIBS glew_s glfw glm_static
 )
+unnecessary_resources(
+        opengl_rendering
+        RESOURCES
+        shaders/std.frag
+        shaders/std.vert
+)

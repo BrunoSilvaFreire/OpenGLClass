@@ -5,7 +5,15 @@ unnecessary_module(
         include/unnecessary/application.h
         src/unnecessary/application.cpp
 )
-unnecessary_module_dependencies(base
+unnecessary_module_dependencies(
+        base
         LIBS
         glew_s;glfw;glm_static;entityx
-        )
+)
+if (UNIX)
+    unnecessary_module_dependencies(
+            base
+            LIBS
+            stdc++fs
+    )
+endif ()

@@ -137,7 +137,7 @@ int main() {
     gl::Application application(glm::u32vec2(1920, 1080), "Unnecessary App");
     std::filesystem::path workingDir = std::filesystem::current_path();
     std::cout << "Executing at " << workingDir << std::endl;
-    std::filesystem::path resDir = workingDir / "shaders";
+    std::filesystem::path resDir = workingDir / "resources" / "shaders";
     //Allocate on heap
     std::cout << "Using resources located @ " << resDir << std::endl;
     auto *shader = new gl::Shader(

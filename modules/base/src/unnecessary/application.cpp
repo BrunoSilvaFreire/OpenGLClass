@@ -2,17 +2,25 @@
 
 namespace gl {
     Application::Application(glm::u32vec2 size, const std::string &title) : window(nullptr), running(false) {
-        auto glfwInitStatuss = glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        auto glfwInitStatuss = glfwInit();
+        std::cout << "Initializing GLFW " << glfwGetVersionString() << std::endl;
+        if (glfwInitStatuss != GLFW_TRUE) {
+            const char *desc;
+            glfwGetError(&desc);
+            std::cerr << "An error occurred while initializing GLFW (" << desc << ")" << std::endl;
+            throw std::runtime_error("Error while initializing GLFW");
+        }
         window = glfwCreateWindow(
                 size.x, size.y, title.c_str(), nullptr, nullptr
         );
         glfwMakeContextCurrent(window);
+        std::cout << "Initializing GLEW " << glewGetString(GLEW_VERSION) << std::endl;
         auto glewInitCode = glewInit();
         if (glewInitCode != GLEW_OK) {
-            std::cout << "An error occoured while initializing GLEW (" << glewInitCode << ") '"
+            std::cerr << "An error occurred while initializing GLEW (" << glewInitCode << ") '"
                       << glewGetErrorString(glewInitCode) << "'" << std::endl;
             throw std::runtime_error("Error while initializing GLEW");
         }
