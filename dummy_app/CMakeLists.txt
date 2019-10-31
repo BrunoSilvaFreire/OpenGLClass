@@ -7,3 +7,7 @@ unnecessary_app(
         common_ecs
         opengl_rendering
 )
+target_link_libraries(
+        dummy_app
+        tinyobjloader
+)

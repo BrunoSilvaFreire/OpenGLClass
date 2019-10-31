@@ -10,5 +10,5 @@ unnecessary_module(
 unnecessary_module_dependencies(
         common_ecs
         MODULES base
-        LIBS glm_static
+        LIBS glm_static entityx
 )

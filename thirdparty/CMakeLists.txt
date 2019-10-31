@@ -29,3 +29,6 @@ target_include_directories(
         PUBLIC
         lodepng
 )
+add_subdirectory(
+        tinyobjloader
+)

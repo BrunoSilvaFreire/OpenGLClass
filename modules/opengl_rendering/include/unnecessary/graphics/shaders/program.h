@@ -10,6 +10,7 @@ namespace gl {
         uint32_t id;
         uint32_t vShader;
         uint32_t fShader;
+        uint32_t gShader;
     public:
         explicit ShaderProgram(
                 const gl::Shader &shader

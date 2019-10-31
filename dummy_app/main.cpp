@@ -5,11 +5,11 @@
 #include <entityx/entityx.h>
 #include <cmath>
 #include <filesystem>
-#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <unnecessary/graphics/ecs/rendering.h>
+#include <tiny_obj_loader.h>
 
-#define FLOOR_WIDTH 5
+#define FLOOR_WIDTH 10
 #define FLOOR_HEIGHT 5
 #define FLOOR_SIZE 1.0F
 
@@ -18,8 +18,9 @@ gl::Geometry createFloor(
 ) {
     std::vector<glm::vec3> vertices;
     std::vector<uint32_t> indices;
-    for (int i = -FLOOR_WIDTH; i < FLOOR_WIDTH; ++i) {
-        for (int j = -FLOOR_HEIGHT; j < FLOOR_HEIGHT; ++j) {
+
+    for (int i = 0; i < FLOOR_WIDTH; ++i) {
+        for (int j = 0; j < FLOOR_HEIGHT; ++j) {
             float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
             vertices.emplace_back(
                     (float) i * FLOOR_SIZE,
@@ -137,7 +138,7 @@ int main() {
     gl::Application application(glm::u32vec2(1920, 1080), "Unnecessary App");
     std::filesystem::path workingDir = std::filesystem::current_path();
     std::cout << "Executing at " << workingDir << std::endl;
-    std::filesystem::path resDir = workingDir / "resources" / "shaders";
+    std::filesystem::path resDir = workingDir / "shaders";
     //Allocate on heap
     std::cout << "Using resources located @ " << resDir << std::endl;
     auto *shader = new gl::Shader(
@@ -145,6 +146,8 @@ int main() {
                     resDir / "std.vert",
                     gl::ShaderLayout({}),
                     resDir / "std.frag",
+                    gl::ShaderLayout({}),
+                    resDir / "std.geom",
                     gl::ShaderLayout({})
             )
     );
@@ -184,14 +187,77 @@ int main() {
                     createTriangle(shader)
             }
     );
-    auto floorE = application.getEntities().create();
+    std::filesystem::path teapotFile = workingDir / "teapot.obj";
+    tinyobj::attrib_t attrib;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+
+    std::string warn;
+    std::string err;
+    gl::VertexLayout vLayout = gl::VertexLayout(
+            {
+                    gl::VertexElement(sizeof(float), 3, GL_FLOAT, false)
+            }
+    );
+
+
+    std::vector<glm::vec3> vData;
+    auto verts = attrib.vertices;
+    auto count = verts.size();
+    vData.reserve(count / 3);
+    for (size_t i = 0; i < count; i += 3) {
+        auto x = verts[i];
+        auto y = verts[i + 1];
+        auto z = verts[i + 2];
+        vData.emplace_back(
+                x,
+                y,
+                z
+
+        );
+    }
+    auto material = gl::Material(shader);
+    for (auto &shape : shapes) {
+        auto entt = application.getEntities().create();
+        entt.assign_from_copy<gl::Translation>(
+                {
+                        glm::vec3(0, 3, 0)
+                }
+        );
+        std::vector<uint32_t> i;
+        auto &toTransform = shape.mesh.indices;
+        std::transform(
+                toTransform.begin(),
+                toTransform.end(),
+                std::back_inserter(i),
+                [](const tinyobj::index_t &index) {
+                    std::cout << "Inserting " << index.vertex_index << "." << std::endl;
+                    return index.vertex_index;
+                }
+        );
+        auto geo = gl::Geometry::from(
+                vLayout,
+                vData.data(), vData.size(),
+                i.data(), i.size(),
+                material
+        );
+        entt.assign<gl::ModelToWorld>();
+        entt.assign<gl::WorldToView>();
+        entt.assign_from_copy<gl::Drawable>(
+                {
+                        "mvpMatrix",
+                        geo
+                }
+        );
+    }
+    /*auto floorE = application.getEntities().create();
     floorE.assign<gl::ModelToWorld>();
     floorE.assign_from_copy<gl::Drawable>(
             {
                     "mvpMatrix",
                     createFloor(shader)
             }
-    );
+    );*/
     systems.add<Closer>(&application);
     application.show();
     application.run();

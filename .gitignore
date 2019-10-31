@@ -131,3 +131,4 @@ CTestTestfile.cmake
 
 # Compiled Static libraries
 *.lai
+!modules/opengl_rendering/teapot.obj

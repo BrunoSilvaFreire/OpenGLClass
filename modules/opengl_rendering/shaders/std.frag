@@ -1,7 +1,7 @@
 #version 330 core
 
 out vec3 color;
-
+in vec3 normal;
 void main() {
-    color = vec3(1, 0, 0) ;
+    color = (normal + vec3(1, 1, 1)) / 2;
 }

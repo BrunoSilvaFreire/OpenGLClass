@@ -86,4 +86,22 @@ namespace gl {
                 ShaderSource::from(fragmentPath, fragmentLayout)
         );
     }
+    Shader Shader::from(
+            const std::filesystem::path &vertexPath,
+            const ShaderLayout &vertexLayout,
+            const std::filesystem::path &fragmentPath,
+            const ShaderLayout &fragmentLayout,
+            const std::filesystem::path &geometryPath,
+            const ShaderLayout &geometryLayout
+    ) {
+        return Shader(
+                ShaderSource::from(vertexPath, vertexLayout),
+                ShaderSource::from(fragmentPath, fragmentLayout),
+                new ShaderSource(ShaderSource::from(geometryPath, geometryLayout))
+        );
+    }
+
+    ShaderSource *Shader::getGeometry() const {
+        return geometry;
+    }
 }

@@ -7,6 +7,10 @@
 #include <unnecessary/application.h>
 
 namespace gl {
+    struct LightPoint {
+        float intensity, range;
+        glm::vec3 color;
+    };
 
     struct Camera {
         float fieldOfView, nearPlane, farPlane;

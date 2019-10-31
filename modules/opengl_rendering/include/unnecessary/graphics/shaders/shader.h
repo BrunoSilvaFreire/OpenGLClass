@@ -57,18 +57,36 @@ namespace gl {
     class Shader {
     private:
         ShaderSource vertex, fragment;
+        ShaderSource *geometry;
     public:
-        Shader(ShaderSource vertex, ShaderSource fragment) : vertex(std::move(vertex)), fragment(std::move(fragment)) {}
+        Shader(
+                ShaderSource vertex,
+                ShaderSource fragment,
+                ShaderSource *geometry = nullptr
+        ) : vertex(std::move(vertex)), fragment(std::move(fragment)), geometry(std::move(geometry)) {
+
+        }
 
         const ShaderSource &getVertex() const;
 
         const ShaderSource &getFragment() const;
+
+        ShaderSource *getGeometry() const;
 
         static Shader from(
                 const std::filesystem::path &vertexPath,
                 const ShaderLayout &vertexLayout,
                 const std::filesystem::path &fragmentPath,
                 const ShaderLayout &fragmentLayout
+        );
+
+        static Shader from(
+                const std::filesystem::path &vertexPath,
+                const ShaderLayout &vertexLayout,
+                const std::filesystem::path &fragmentPath,
+                const ShaderLayout &fragmentLayout,
+                const std::filesystem::path &geometryPath,
+                const ShaderLayout &geometryLayout
         );
 
     };

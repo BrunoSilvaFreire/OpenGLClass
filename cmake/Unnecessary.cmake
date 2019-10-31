@@ -104,9 +104,10 @@ function(unnecessary_module_dependencies NAME)
             string(TOLOWER ${type} lower)
             set(mod unnecessary_${NAME}_${lower})
             set(subdep unnecessary_${dep}_${lower})
+            message("${subdep} depending on ${mod}")
             target_link_libraries(
+                    ${mod}
                     ${subdep}
-                    ${dep}
             )
 
         endforeach ()
@@ -138,11 +139,11 @@ function(_add_unnecessary_resources NAME RESOURCES)
         set(out ${CMAKE_CURRENT_BINARY_DIR}/resources/${file})
         set(in ${CMAKE_CURRENT_SOURCE_DIR}/${file})
         get_filename_component(parent ${out} DIRECTORY)
-        add_custom_command(
+        #[[add_custom_command(
                 TARGET ${NAME}
                 POST_BUILD
                 COMMAND mkdir -p ${parent} && cp ${in} ${out}
-        )
+        )]]
     endforeach ()
     get_target_property(
             existing_resources

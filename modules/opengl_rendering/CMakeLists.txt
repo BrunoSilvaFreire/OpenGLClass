@@ -49,7 +49,7 @@ unnecessary_module(
 unnecessary_module_dependencies(
         opengl_rendering
         MODULES base common_ecs
-        LIBS glew_s glfw glm_static
+        LIBS glew_s glfw glm_static entityx
 )
 unnecessary_resources(
         opengl_rendering
