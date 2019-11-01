@@ -28,19 +28,20 @@ namespace gl {
         for (entityx::Entity entity : entities.entities_with_components(hMatrix)) {
             ModelToWorld &m = *hMatrix;
             auto mat = glm::identity<glm::mat4>();
-            auto scale = entity.component<Scale>();
-            if (scale) {
-                mat *= glm::scale(mat, (*scale).value);
+            auto translation = entity.component<Translation>();
+            if (translation) {
+                mat *= glm::translate(glm::identity<glm::mat4>(), (*translation).value);
             }
 
             auto rotation = entity.component<Rotation>();
             if (rotation) {
                 mat *= glm::toMat4((*rotation).value);
             }
-            auto translation = entity.component<Translation>();
-            if (translation) {
-                mat *= glm::translate(glm::identity<glm::mat4>(), (*translation).value);
+            auto scale = entity.component<Scale>();
+            if (scale) {
+                mat *= glm::scale(mat, (*scale).value);
             }
+
             m.value = mat;
         }
     }
@@ -66,7 +67,6 @@ namespace gl {
             m.value = glm::lookAt(pos, pos + fwd, up);
         }
     }
-
 
 
     double NavigationSystem::getInput(GLFWwindow *window, int32_t positive, int32_t negative) {
@@ -129,4 +129,10 @@ namespace gl {
         auto window = app.getWindow();
         systems.add<NavigationSystem>(window);
     }
+
+    Scale::Scale(const glm::vec3 &value) : value(value) {}
+
+    Rotation::Rotation(const glm::quat &value) : value(value) {}
+
+    Translation::Translation(const glm::vec3 &value) : value(value) {}
 }

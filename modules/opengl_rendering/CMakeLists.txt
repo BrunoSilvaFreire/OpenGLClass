@@ -56,4 +56,7 @@ unnecessary_resources(
         RESOURCES
         shaders/std.frag
         shaders/std.vert
+        shaders/std.geom
+        assets/teapot.obj
+        assets/bunny.obj
 )

@@ -1,3 +1,4 @@
+
 set(
         UNNECESSARY_MODULE_TYPES
         STATIC;SHARED
@@ -49,11 +50,17 @@ function(unnecessary_app NAME DEPENDENCY_TYPE)
         )
 
         _unnecessary_collect_resources(${NAME} ${dep} temp_res)
+        message("${temp_res}")
         if (NOT "${temp_res}" STREQUAL "")
             message(STATUS "+ Resources of '${dep}'")
             get_target_property(FOO_SOURCE_DIR ${subdep} SOURCE_DIR)
-            message("${FOO_SOURCE_DIR} @ ${temp_res}")
             foreach (res ${temp_res})
+                message("${FOO_SOURCE_DIR}/${res} to ${CMAKE_CURRENT_BINARY_DIR}/${res}")
+                add_custom_command(
+                        TARGET ${NAME}
+                        COMMAND ${CMAKE_COMMAND} -E copy "${FOO_SOURCE_DIR}/${res}" "${CMAKE_CURRENT_BINARY_DIR}/${res}"
+                        POST_BUILD
+                )
             endforeach ()
         endif ()
 
@@ -61,7 +68,11 @@ function(unnecessary_app NAME DEPENDENCY_TYPE)
     endforeach ()
 
 endfunction()
-
+#
+# Collects libraries as modules specified as parameters.
+#
+# Doesn't collect resources
+#
 macro(_unnecessary_collect_artifacts PREFIX)
     cmake_parse_arguments(PARSE_ARGV 0 ${PREFIX} "" "" "MODULES;LIBS")
     list(LENGTH ${PREFIX}_MODULES MOD_COUNT)
@@ -91,7 +102,12 @@ macro(_unnecessary_collect_resources NAME DEP OUT)
         set(subdep unnecessary_${DEP}_${lower})
         get_target_property(mod_res ${subdep} UNNECESSARY_RESOURCES)
         if (NOT "${mod_res}" STREQUAL "mod_res-NOTFOUND")
-            list(APPEND ${OUT} ${mod_res})
+            foreach (res ${mod_res})
+                if (NOT ${res} IN_LIST "${OUT}")
+                    list(APPEND ${OUT} ${res})
+
+                endif ()
+            endforeach ()
         endif ()
 
     endforeach ()
@@ -104,7 +120,6 @@ function(unnecessary_module_dependencies NAME)
             string(TOLOWER ${type} lower)
             set(mod unnecessary_${NAME}_${lower})
             set(subdep unnecessary_${dep}_${lower})
-            message("${subdep} depending on ${mod}")
             target_link_libraries(
                     ${mod}
                     ${subdep}
@@ -138,6 +153,7 @@ function(_add_unnecessary_resources NAME RESOURCES)
     foreach (file ${RESOURCES})
         set(out ${CMAKE_CURRENT_BINARY_DIR}/resources/${file})
         set(in ${CMAKE_CURRENT_SOURCE_DIR}/${file})
+
         get_filename_component(parent ${out} DIRECTORY)
         #[[add_custom_command(
                 TARGET ${NAME}
@@ -150,7 +166,7 @@ function(_add_unnecessary_resources NAME RESOURCES)
             ${NAME}
             UNNECESSARY_RESOURCES
     )
-    if (NOT ${existing_resources} STREQUAL "existing_resources-NOTFOUND")
+    if (NOT "${existing_resources}" STREQUAL "existing_resources-NOTFOUND")
         list(APPEND RESOURCES ${existing_resources})
     endif ()
     set_target_properties(
@@ -166,12 +182,7 @@ function(unnecessary_resources NAME)
     foreach (type ${UNNECESSARY_MODULE_TYPES})
         string(TOLOWER ${type} lower)
         set(subname unnecessary_${NAME}_${lower})
-        foreach (res ${unnecessary_resources_RESOURCES})
-            _add_unnecessary_resources(${subname} "${CMAKE_CURRENT_SOURCE_DIR}/${res}")
-
-        endforeach ()
-
-
+        _add_unnecessary_resources(${subname} "${unnecessary_resources_RESOURCES}")
     endforeach ()
 
 endfunction()

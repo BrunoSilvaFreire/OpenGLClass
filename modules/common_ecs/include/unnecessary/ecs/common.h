@@ -11,12 +11,18 @@
 #include <unnecessary/application.h>
 namespace gl {
     struct Translation {
+        Translation(const glm::vec3 &value);
+
         glm::vec3 value;
     };
     struct Rotation {
+        Rotation(const glm::quat &value);
+
         glm::quat value;
     };
     struct Scale {
+        Scale(const glm::vec3 &value);
+
         glm::vec3 value;
     };
     struct ModelToWorld {
