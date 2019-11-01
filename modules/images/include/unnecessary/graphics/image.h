@@ -6,7 +6,7 @@
 #include <lodepng.h>
 #include <iostream>
 
-namespace gl {
+namespace un {
     class Image {
     private:
         uint32_t width, height;

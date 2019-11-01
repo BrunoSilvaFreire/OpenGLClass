@@ -10,7 +10,7 @@
 #include <unnecessary/graphics/shaders/program.h>
 #include <unnecessary/graphics/utility/debugging.h>
 
-namespace gl {
+namespace un {
     class Geometry {
     private:
         VertexBuffer vBuf;

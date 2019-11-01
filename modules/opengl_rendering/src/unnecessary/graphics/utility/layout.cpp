@@ -1,6 +1,6 @@
 #include <unnecessary/graphics/utility/layout.h>
 
-namespace gl {
+namespace un {
 
     LayoutElement::LayoutElement(uint8_t elementLength, uint8_t elementCount) : elementLength(elementLength),
                                                                                 elementCount(elementCount) {}

@@ -12,7 +12,7 @@
 
 #define bind_scope(obj) obj.bind();\
 
-namespace gl {
+namespace un {
 
     template<GLenum TARGET>
     struct BindableMixin {

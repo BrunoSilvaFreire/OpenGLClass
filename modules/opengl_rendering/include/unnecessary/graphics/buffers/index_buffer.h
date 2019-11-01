@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 #include <unnecessary/graphics/binding.h>
 
-namespace gl {
+namespace un {
 
 
     class IndexBuffer : public BindableMixin<GL_ELEMENT_ARRAY_BUFFER> {

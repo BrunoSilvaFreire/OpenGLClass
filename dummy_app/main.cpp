@@ -13,8 +13,8 @@
 #define FLOOR_HEIGHT 5
 #define FLOOR_SIZE 1.0F
 
-gl::Geometry createFloor(
-        gl::Shader *shader
+un::Geometry createFloor(
+        un::Shader *shader
 ) {
     std::vector<glm::vec3> vertices;
     std::vector<uint32_t> indices;
@@ -44,20 +44,20 @@ gl::Geometry createFloor(
         indices.push_back(third);
         indices.push_back(fourth);
     }
-    return gl::Geometry::from(
-            gl::VertexLayout(
+    return un::Geometry::from(
+            un::VertexLayout(
                     {
-                            gl::VertexElement(sizeof(float), 3, GL_FLOAT, false)
+                            un::VertexElement(sizeof(float), 3, GL_FLOAT, false)
                     }
             ),
             vertices.data(), vertices.size(),
             indices.data(), indices.size(),
-            gl::Material(shader)
+            un::Material(shader)
     );
 }
 
-gl::Geometry createTriangle(
-        gl::Shader *shader
+un::Geometry createTriangle(
+        un::Shader *shader
 ) {
 
     std::vector<glm::vec3> triangle = {
@@ -92,24 +92,24 @@ gl::Geometry createTriangle(
             6, 7, 3
     };
 
-    return gl::Geometry::from(
-            gl::VertexLayout(
+    return un::Geometry::from(
+            un::VertexLayout(
                     {
-                            gl::VertexElement(sizeof(float), 3, GL_FLOAT, false)
+                            un::VertexElement(sizeof(float), 3, GL_FLOAT, false)
                     }
             ),
             triangle.data(), triangle.size(),
             indices.data(), indices.size(),
-            gl::Material(shader)
+            un::Material(shader)
     );
 }
 
 struct Closer : entityx::System<Closer> {
 private:
-    gl::Application *application;
+    un::Application *application;
 
 public:
-    explicit Closer(gl::Application *application) : application(application) {}
+    explicit Closer(un::Application *application) : application(application) {}
 
     void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {
         if (glfwGetKey(application->getWindow(), GLFW_KEY_ESCAPE)) {
@@ -120,15 +120,15 @@ public:
 
 struct Sine : entityx::System<Sine> {
 private:
-    entityx::ComponentHandle<gl::Translation> t;
+    entityx::ComponentHandle<un::Translation> t;
     float time = 0;
     float speed;
 public:
-    Sine(const entityx::ComponentHandle<gl::Translation> &t, float speed) : t(t), speed(speed) {}
+    Sine(const entityx::ComponentHandle<un::Translation> &t, float speed) : t(t), speed(speed) {}
 
     void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {
         time += dt * speed;
-        gl::Translation &tr = *t;
+        un::Translation &tr = *t;
         tr.value.z = -10 + std::sin(time) * 5;
 
     }
@@ -194,55 +194,55 @@ std::vector<Model> import_obj(std::filesystem::path file) {
 }
 
 int main() {
-    gl::Application application(glm::u32vec2(1920, 1080), "Unnecessary App");
+    un::Application application(glm::u32vec2(1920, 1080), "Unnecessary App");
     std::filesystem::path workingDir = std::filesystem::current_path();
     std::cout << "Executing at " << workingDir << std::endl;
     std::filesystem::path resDir = workingDir / "shaders";
     //Allocate on heap
     std::cout << "Using resources located @ " << resDir << std::endl;
-    auto *shader = new gl::Shader(
-            gl::Shader::from(
+    auto *shader = new un::Shader(
+            un::Shader::from(
                     resDir / "std.vert",
-                    gl::ShaderLayout({}),
+                    un::ShaderLayout({}),
                     resDir / "std.frag",
-                    gl::ShaderLayout({}),
+                    un::ShaderLayout({}),
                     resDir / "std.geom",
-                    gl::ShaderLayout({})
+                    un::ShaderLayout({})
             )
     );
-    gl::ecs::register_default_systems(application);
-    gl::gl_rendering::register_default_systems(application);
+    un::ecs::register_default_systems(application);
+    un::gl_rendering::register_default_systems(application);
     auto &systems = application.getSystems();
     auto camera = application.getEntities().create();
-    camera.assign<gl::WorldToView>();
-    auto t = camera.assign_from_copy<gl::Translation>(
+    camera.assign<un::WorldToView>();
+    auto t = camera.assign_from_copy<un::Translation>(
             {
                     glm::vec3(0, 0, -10)
             }
     );
-    camera.assign_from_copy<gl::Rotation>(
+    camera.assign_from_copy<un::Rotation>(
             {
                     glm::quat_identity<float, glm::qualifier::defaultp>()
             }
     );
-    camera.assign_from_copy<gl::Navigator>(
+    camera.assign_from_copy<un::Navigator>(
             {
                     1.0F, .05F
             }
     );
-    camera.assign_from_copy<gl::Camera>(
+    camera.assign_from_copy<un::Camera>(
             {
                     60.0F,
                     0.01F,
                     100.0F
             }
     );
-    auto material = gl::Material(shader);
+    auto material = un::Material(shader);
 
     auto e = application.getEntities().create();
     //systems.add<Sine>(t, 0.01);
-    e.assign<gl::ModelToWorld>();
-    e.assign_from_copy<gl::Drawable>(
+    e.assign<un::ModelToWorld>();
+    e.assign_from_copy<un::Drawable>(
             {
                     "mvpMatrix",
                     createTriangle(shader)
@@ -252,19 +252,19 @@ int main() {
     std::filesystem::path teapotFile = assetsDir / "teapot.obj";
     std::filesystem::path bunnyFile = assetsDir / "bunny.obj";
     std::cout << "Using teapot " << teapotFile << "." << std::endl;
-    gl::VertexLayout vLayout = gl::VertexLayout(
+    un::VertexLayout vLayout = un::VertexLayout(
             {
-                    gl::VertexElement(sizeof(float), 3, GL_FLOAT, false)
+                    un::VertexElement(sizeof(float), 3, GL_FLOAT, false)
             }
     );
     for (Model &model : import_obj(teapotFile)) {
         auto e = application.getEntities().create();
-        e.assign<gl::ModelToWorld>();
-        e.assign<gl::WorldToView>();
-        e.assign_from_copy<gl::Drawable>(
+        e.assign<un::ModelToWorld>();
+        e.assign<un::WorldToView>();
+        e.assign_from_copy<un::Drawable>(
                 {
                         "mvpMatrix",
-                        gl::Geometry::from(
+                        un::Geometry::from(
                                 vLayout,
                                 model.verts.data(), model.verts.size(),
                                 model.indices.data(), model.indices.size(),
@@ -272,7 +272,7 @@ int main() {
                         )
                 }
         );
-        e.assign_from_copy<gl::Translation>(
+        e.assign_from_copy<un::Translation>(
                 {
                         glm::vec3(2, 1, 0)
                 }
@@ -280,12 +280,12 @@ int main() {
     }
     for (Model &model : import_obj(bunnyFile)) {
         auto e = application.getEntities().create();
-        e.assign<gl::ModelToWorld>();
-        e.assign<gl::WorldToView>();
-        e.assign_from_copy<gl::Drawable>(
+        e.assign<un::ModelToWorld>();
+        e.assign<un::WorldToView>();
+        e.assign_from_copy<un::Drawable>(
                 {
                         "mvpMatrix",
-                        gl::Geometry::from(
+                        un::Geometry::from(
                                 vLayout,
                                 model.verts.data(), model.verts.size(),
                                 model.indices.data(), model.indices.size(),
@@ -293,14 +293,14 @@ int main() {
                         )
                 }
         );
-        e.assign<gl::Scale>(glm::vec3(20, 20, 20));
-        e.assign<gl::Translation>(
+        e.assign<un::Scale>(glm::vec3(20, 20, 20));
+        e.assign<un::Translation>(
                 glm::vec3(-1, 1, 0)
         );
     }
     /*auto floorE = application.getEntities().create();
-    floorE.assign<gl::ModelToWorld>();
-    floorE.assign_from_copy<gl::Drawable>(
+    floorE.assign<un::ModelToWorld>();
+    floorE.assign_from_copy<un::Drawable>(
             {
                     "mvpMatrix",
                     createFloor(shader)

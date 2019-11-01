@@ -1,5 +1,5 @@
 #include <unnecessary/graphics/shaders/shader.h>
-namespace gl {
+namespace un {
 
     ShaderElement::ShaderElement(uint8_t elementLength, uint8_t elementCount, GLenum type) : LayoutElement(
             elementLength,

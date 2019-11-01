@@ -9,7 +9,7 @@
 #include <entityx/System.h>
 #include <glm/gtx/string_cast.hpp>
 #include <unnecessary/application.h>
-namespace gl {
+namespace un {
     struct Translation {
         Translation(const glm::vec3 &value);
 
@@ -33,11 +33,11 @@ namespace gl {
     };
 
 
-    glm::vec3 forward(const gl::Rotation &rotation);
+    glm::vec3 forward(const un::Rotation &rotation);
 
-    glm::vec3 right(const gl::Rotation &rotation);
+    glm::vec3 right(const un::Rotation &rotation);
 
-    glm::vec3 up(const gl::Rotation &rotation);
+    glm::vec3 up(const un::Rotation &rotation);
 
     glm::vec3 forward(entityx::Entity &e);
 
@@ -71,7 +71,7 @@ namespace gl {
         void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override;
     };
     namespace ecs {
-        void register_default_systems(gl::Application &app);
+        void register_default_systems(un::Application &app);
     }
 }
 

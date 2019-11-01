@@ -1,6 +1,6 @@
 #include <unnecessary/graphics/buffers/vertex_array_buffer.h>
 
-namespace gl {
+namespace un {
 
     VertexArrayBuffer::VertexArrayBuffer(uint32_t id) : id(id) {
 

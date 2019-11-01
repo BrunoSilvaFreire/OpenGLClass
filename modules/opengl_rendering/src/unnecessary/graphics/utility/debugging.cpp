@@ -1,6 +1,6 @@
 #include <unnecessary/graphics/utility/debugging.h>
 
-namespace gl {
+namespace un {
 
     void print_bound_elements() {
 

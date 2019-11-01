@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <iostream>
 
-namespace gl {
+namespace un {
 
     void print_bound_target(uint32_t pName, const std::string &desc);
 

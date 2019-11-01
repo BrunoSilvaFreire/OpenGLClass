@@ -1,6 +1,6 @@
 #include <unnecessary/graphics/material.h>
 
-namespace gl {
+namespace un {
 
     Material::Material(
             Shader *shader,

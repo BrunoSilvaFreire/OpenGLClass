@@ -1,6 +1,6 @@
 #include <unnecessary/graphics/buffers/vertex_buffer.h>
 
-namespace gl {
+namespace un {
 
     VertexElement::VertexElement(uint8_t elementLength, uint8_t elementCount, GLenum type, bool normalized)
             : LayoutElement(

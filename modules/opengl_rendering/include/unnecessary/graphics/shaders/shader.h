@@ -13,7 +13,7 @@
 #include <ostream>
 #include <unnecessary/graphics/utility/debugging.h>
 
-namespace gl {
+namespace un {
     class ShaderElement : LayoutElement {
     private:
         GLenum type;
@@ -29,12 +29,12 @@ namespace gl {
         friend std::ostream &operator<<(std::ostream &os, const ShaderElement &element);
     };
 
-    typedef Layout <gl::ShaderElement> ShaderLayout;
+    typedef Layout <un::ShaderElement> ShaderLayout;
 
     class ShaderSource {
     private:
         std::string source;
-        gl::ShaderLayout layout;
+        un::ShaderLayout layout;
 
         static bool checkCompileStatus(uint32_t id);
 

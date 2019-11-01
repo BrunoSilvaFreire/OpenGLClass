@@ -1,6 +1,6 @@
 #include <unnecessary/graphics/geometry.h>
 
-namespace gl {
+namespace un {
 
     Geometry::Geometry(
             const VertexBuffer &vBuf,

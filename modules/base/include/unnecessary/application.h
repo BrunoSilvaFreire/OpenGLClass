@@ -9,7 +9,7 @@
 #include <string>
 #include <entityx/entityx.h>
 
-namespace gl {
+namespace un {
 
     class Application {
     private:

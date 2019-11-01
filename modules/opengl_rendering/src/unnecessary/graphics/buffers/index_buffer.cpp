@@ -1,6 +1,6 @@
 #include <unnecessary/graphics/buffers/index_buffer.h>
 
-namespace gl {
+namespace un {
 
     IndexBuffer IndexBuffer::createAndPush(uint32_t *data, size_t length) {
         uint32_t id;

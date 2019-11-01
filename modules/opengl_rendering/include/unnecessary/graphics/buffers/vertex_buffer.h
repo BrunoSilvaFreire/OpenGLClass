@@ -10,7 +10,7 @@
 #include <unnecessary/graphics/utility/layout.h>
 #include <sstream>
 
-namespace gl {
+namespace un {
 
 
     class VertexElement : public LayoutElement {

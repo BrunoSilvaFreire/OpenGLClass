@@ -1,8 +1,8 @@
 #include <unnecessary/graphics/shaders/program.h>
 
-namespace gl {
+namespace un {
 
-    ShaderProgram::ShaderProgram(const gl::Shader &shader) {
+    ShaderProgram::ShaderProgram(const un::Shader &shader) {
         id = glCreateProgram();
         vShader = shader.getVertex().exportShader(GL_VERTEX_SHADER);
         fShader = shader.getFragment().exportShader(GL_FRAGMENT_SHADER);

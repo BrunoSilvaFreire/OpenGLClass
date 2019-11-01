@@ -1,6 +1,6 @@
 #include <unnecessary/application.h>
 
-namespace gl {
+namespace un {
     Application::Application(glm::u32vec2 size, const std::string &title) : window(nullptr), running(false) {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);

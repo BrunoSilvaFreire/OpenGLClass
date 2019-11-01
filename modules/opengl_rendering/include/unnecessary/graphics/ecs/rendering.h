@@ -6,7 +6,7 @@
 #include <unnecessary/graphics/geometry.h>
 #include <unnecessary/application.h>
 
-namespace gl {
+namespace un {
     struct LightPoint {
         float intensity, range;
         glm::vec3 color;
@@ -36,7 +36,7 @@ namespace gl {
 
     };
     namespace gl_rendering {
-        void register_default_systems(gl::Application &app);
+        void register_default_systems(un::Application &app);
     }
 }
 

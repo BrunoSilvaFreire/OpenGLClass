@@ -3,7 +3,7 @@
 
 #include <unnecessary/graphics/shaders/shader.h>
 
-namespace gl {
+namespace un {
 
     class ShaderProgram {
     private:
@@ -13,7 +13,7 @@ namespace gl {
         uint32_t gShader;
     public:
         explicit ShaderProgram(
-                const gl::Shader &shader
+                const un::Shader &shader
         );
 
         uint32_t getId() const;

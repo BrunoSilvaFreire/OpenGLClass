@@ -7,7 +7,7 @@
 #include <unnecessary/graphics/buffers/index_buffer.h>
 
 
-namespace gl {
+namespace un {
     class VertexArrayBuffer {
     private:
         uint32_t id;

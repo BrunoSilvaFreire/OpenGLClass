@@ -1,6 +1,6 @@
 #include <unnecessary/ecs/common.h>
 
-namespace gl {
+namespace un {
     glm::vec3 forward(const Rotation &rotation) {
         return glm::vec3(0, 0, 1) * rotation.value;
     }
@@ -78,7 +78,7 @@ namespace gl {
         entityx::ComponentHandle<Navigator> hNav;
         entityx::ComponentHandle<Translation> hTrans;
         for (entityx::Entity e : entities.entities_with_components(hNav, hTrans)) {
-            gl::Navigator &nav = *hNav;
+            un::Navigator &nav = *hNav;
             auto speed = nav.speed;
             glm::vec3 fwd(0, 0, 1);
             glm::vec3 up(0, 1, 0);
@@ -106,9 +106,9 @@ namespace gl {
 
                 rot.value = glm::quat(glm::vec3(-yaw, 0, 0)) * rot.value * glm::quat(glm::vec3(0, pitch, 0));
 
-                fwd = gl::forward(rot);
-                up = gl::up(rot);
-                right = gl::right(rot);
+                fwd = un::forward(rot);
+                up = un::up(rot);
+                right = un::right(rot);
             }
             float fwdM = getInput(wnd, GLFW_KEY_W, GLFW_KEY_S) * speed * dt;
             float sideM = getInput(wnd, GLFW_KEY_A, GLFW_KEY_D) * speed * dt;
@@ -122,7 +122,7 @@ namespace gl {
         }
     }
 
-    void ecs::register_default_systems(gl::Application &app) {
+    void ecs::register_default_systems(un::Application &app) {
         auto &systems = app.getSystems();
         systems.add<TransformSystem>();
         systems.add<ViewSystem>();

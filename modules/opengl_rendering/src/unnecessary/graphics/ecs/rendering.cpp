@@ -2,7 +2,7 @@
 #include <unnecessary/graphics/ecs/rendering.h>
 #include <unnecessary/ecs/common.h>
 
-namespace gl {
+namespace un {
     RenderingSystem::RenderingSystem(GLFWwindow *wnd) : wnd(wnd) {}
 
     void
@@ -46,7 +46,7 @@ namespace gl {
         }
     }
 
-    void gl_rendering::register_default_systems(gl::Application &app) {
+    void gl_rendering::register_default_systems(un::Application &app) {
         auto &systems = app.getSystems();
         auto window = app.getWindow();
         systems.add<RenderingSystem>(window);

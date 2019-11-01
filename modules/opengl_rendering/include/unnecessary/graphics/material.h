@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include <unnecessary/graphics/shaders/shader.h>
 
-namespace gl {
+namespace un {
 
 
     class Material {
@@ -24,7 +24,7 @@ namespace gl {
         std::vector<FloatProperty> floats;
         std::vector<IntProperty> ints;
         std::vector<ColorProperty> colors;
-        gl::Shader *shader;
+        un::Shader *shader;
     public:
         Material(
                 Shader *shader,
