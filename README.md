@@ -3,7 +3,9 @@
 ![](media/splashart.png)
 An OpenGL based rendering engine.  
 There is no reason for this to exist except for study purposes.
-
+## Downloading and running
+Execute the clone.sh script and you'll be good to go
+`wget https://raw.githubusercontent.com/BrunoSilvaFreire/TheUnnecessaryEngine/master/clone.sh && ./clone.sh`
 ## Dependencies
 * [GLEW](https://github.com/nigels-com/glew)
 * [GLFW](https://github.com/glfw/glfw)

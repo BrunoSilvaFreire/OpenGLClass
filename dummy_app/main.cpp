@@ -180,7 +180,6 @@ std::vector<Model> import_obj(std::filesystem::path file) {
                 toTransform.end(),
                 std::back_inserter(i),
                 [](const tinyobj::index_t &index) {
-                    std::cout << "Inserting " << index.vertex_index << "." << std::endl;
                     return index.vertex_index;
                 }
         );

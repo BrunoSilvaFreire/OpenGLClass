@@ -30,6 +30,8 @@ namespace gl {
         //glDepthMask(GL_FALSE);
         glDepthFunc(GL_LESS);
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
     }
 
     void Application::show() {
