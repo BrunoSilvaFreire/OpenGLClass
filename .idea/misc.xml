@@ -1,25 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
-  <component name="CidrRootsConfiguration">
-    <sourceRoots>
-      <file path="$PROJECT_DIR$/engine/include" />
-      <file path="$PROJECT_DIR$/engine/shaders" />
-      <file path="$PROJECT_DIR$/engine/src" />
-      <file path="$PROJECT_DIR$/modules/2d/include" />
-      <file path="$PROJECT_DIR$/modules/base/include" />
-      <file path="$PROJECT_DIR$/modules/base/src" />
-      <file path="$PROJECT_DIR$/modules/common_ecs/include" />
-      <file path="$PROJECT_DIR$/modules/common_ecs/src" />
-      <file path="$PROJECT_DIR$/modules/opengl_rendering/include" />
-      <file path="$PROJECT_DIR$/modules/opengl_rendering/shaders" />
-      <file path="$PROJECT_DIR$/modules/opengl_rendering/src" />
-    </sourceRoots>
-    <excludeRoots>
-      <file path="$PROJECT_DIR$/thirdparty" />
-    </excludeRoots>
-  </component>
-  <component name="JavaScriptSettings">
-    <option name="languageLevel" value="ES6" />
-  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="13" project-jdk-type="JavaSDK" />
 </project>

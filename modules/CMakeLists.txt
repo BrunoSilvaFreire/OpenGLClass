@@ -1,4 +1,0 @@
-add_subdirectory(base)
-add_subdirectory(images)
-add_subdirectory(common_ecs)
-add_subdirectory(opengl_rendering)

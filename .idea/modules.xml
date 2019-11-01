@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/OpenGL.iml" filepath="$PROJECT_DIR$/.idea/OpenGL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OpenGLClass.iml" filepath="$PROJECT_DIR$/.idea/modules/OpenGLClass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OpenGLClass.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/OpenGLClass.buildSrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OpenGLClass.buildSrc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/OpenGLClass.buildSrc.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OpenGLClass.buildSrc.test.iml" filepath="$PROJECT_DIR$/.idea/modules/OpenGLClass.buildSrc.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/modules/OpenGLClass.modules.iml" filepath="$PROJECT_DIR$/.idea/modules/modules/OpenGLClass.modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/modules/base/OpenGLClass.modules.base.iml" filepath="$PROJECT_DIR$/.idea/modules/modules/base/OpenGLClass.modules.base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/thirdparty/OpenGLClass.thirdparty.iml" filepath="$PROJECT_DIR$/.idea/modules/thirdparty/OpenGLClass.thirdparty.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/thirdparty/entityx/OpenGLClass.thirdparty.entityx.iml" filepath="$PROJECT_DIR$/.idea/modules/thirdparty/entityx/OpenGLClass.thirdparty.entityx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/thirdparty/glew/OpenGLClass.thirdparty.glew.iml" filepath="$PROJECT_DIR$/.idea/modules/thirdparty/glew/OpenGLClass.thirdparty.glew.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/thirdparty/glfw/OpenGLClass.thirdparty.glfw.iml" filepath="$PROJECT_DIR$/.idea/modules/thirdparty/glfw/OpenGLClass.thirdparty.glfw.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/thirdparty/glm/OpenGLClass.thirdparty.glm.iml" filepath="$PROJECT_DIR$/.idea/modules/thirdparty/glm/OpenGLClass.thirdparty.glm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/modules/me.ddevil.unnecessary-engine.OpenGLClass.modules.iml" filepath="$PROJECT_DIR$/.idea/modules/modules/me.ddevil.unnecessary-engine.OpenGLClass.modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/modules/base/me.ddevil.unnecessary-engine.OpenGLClass.modules.base.iml" filepath="$PROJECT_DIR$/.idea/modules/modules/base/me.ddevil.unnecessary-engine.OpenGLClass.modules.base.iml" />
     </modules>
   </component>
 </project>
