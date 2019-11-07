@@ -6,6 +6,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <unnecessary/graphics/shaders/shader.h>
+#include <unnecessary/graphics/shaders/program.h>
 
 namespace un {
 
@@ -24,7 +25,7 @@ namespace un {
         std::vector<FloatProperty> floats;
         std::vector<IntProperty> ints;
         std::vector<ColorProperty> colors;
-        un::Shader *shader;
+        un::ShaderProgram *shader;
     public:
         Material(
                 Shader *shader,
@@ -39,7 +40,7 @@ namespace un {
 
         const std::vector<ColorProperty> &getColors() const;
 
-        Shader *getShader() const;
+        ShaderProgram *getShader() const;
     };
 }
 #endif

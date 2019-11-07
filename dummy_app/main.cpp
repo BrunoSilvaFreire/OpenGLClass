@@ -242,10 +242,19 @@ int main() {
     auto e = application.getEntities().create();
     //systems.add<Sine>(t, 0.01);
     e.assign<un::ModelToWorld>();
+    auto tri = createTriangle(shader);
+    auto pid = tri.getProgram().getId();
+
+    auto mvpLocation = glGetUniformLocation(pid, "mvpMatrix");
+    auto lightsLocation = glGetUniformLocation(pid, "lights");
+
     e.assign_from_copy<un::Drawable>(
             {
-                    "mvpMatrix",
-                    createTriangle(shader)
+                    un::DrawableIndices(
+                            mvpLocation,
+                            lightsLocation
+                    ),
+                    tri
             }
     );
     std::filesystem::path assetsDir = workingDir / "assets";

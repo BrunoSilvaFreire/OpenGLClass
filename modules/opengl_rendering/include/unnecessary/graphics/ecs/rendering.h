@@ -6,6 +6,7 @@
 #include <unnecessary/graphics/geometry.h>
 #include <unnecessary/application.h>
 
+#define MAX_LIGHTS 4
 namespace un {
     struct LightPoint {
         float intensity, range;
@@ -17,8 +18,18 @@ namespace un {
         glm::mat4 projection;
     };
 
+    struct DrawableIndices {
+        uint32_t mvp;
+        uint32_t lights;
+
+        DrawableIndices(
+                uint32_t mvp,
+                uint32_t lights
+        );
+    };
+
     struct Drawable {
-        std::string mvpName;
+        DrawableIndices indices;
         Geometry geometry;
     };
 

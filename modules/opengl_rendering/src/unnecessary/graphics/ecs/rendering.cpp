@@ -9,6 +9,15 @@ namespace un {
     RenderingSystem::update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.1F, 0.1F, 0.1F, 1);
+        entityx::ComponentHandle<LightPoint> hPoint;
+        std::vector<LightPoint &> points;
+        for (entityx::Entity _ : entities.entities_with_components(points)) {
+            points.emplace_back(*hPoint);
+            if (points.size() >= MAX_LIGHTS) {
+                break;
+            }
+        }
+
         entityx::ComponentHandle<Camera> hCamera;
         entityx::ComponentHandle<WorldToView> hView;
         for (entityx::Entity _ : entities.entities_with_components(hCamera, hView)) {
@@ -31,10 +40,9 @@ namespace un {
                 Geometry &geometry = drawable.geometry;
                 auto pid = geometry.getProgram().getId();
 
-                auto mvpLocation = glGetUniformLocation(pid, drawable.mvpName.c_str());
                 auto mvp = camera.projection * viewMatrix * modelM;
                 glCall(glUseProgram(pid));
-                glCall(glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, reinterpret_cast<float *>(&mvp)));
+                glCall(glUniformMatrix4fv(drawable.indices.mvp, 1, GL_FALSE, reinterpret_cast<float *>(&mvp)));
                 geometry.bind();
                 glDrawElements(
                         GL_TRIANGLES,
@@ -52,4 +60,9 @@ namespace un {
         systems.add<RenderingSystem>(window);
 
     }
+
+    DrawableIndices::DrawableIndices(
+            uint32_t mvp,
+            uint32_t lights
+    ) : mvp(mvp), lights(lights) {}
 }
