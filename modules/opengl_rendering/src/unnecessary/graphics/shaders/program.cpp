@@ -12,7 +12,8 @@ namespace un {
     ShaderProgram::ShaderProgram(
             const un::Shader &shader,
             const std::string &mvpName,
-            const std::string &lightsName
+            const std::string &lightsName,
+            const std::string &modelName
     ) : indices() {
         id = glCreateProgram();
         vShader = shader.getVertex().exportShader(GL_VERTEX_SHADER);
@@ -44,9 +45,9 @@ namespace un {
 
         }
         glCall(glValidateProgram(id));
-        auto mvp = glGetUniformLocation(id, mvpName.c_str());
-        auto lights = glGetUniformLocation(id, lightsName.c_str());
-        indices = ShaderProgram::ShaderIndices(mvp, lights);
+        indices.mvp = glGetUniformLocation(id, mvpName.c_str());
+        indices.lights = glGetUniformLocation(id, lightsName.c_str());
+        indices.model = glGetUniformLocation(id, modelName.c_str());
         /*glCall(glDeleteShader(fragmentShaderID));
         glCall(glDeleteShader(vertexShaderID));*/
     }

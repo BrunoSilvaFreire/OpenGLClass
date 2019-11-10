@@ -8,6 +8,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <unnecessary/graphics/ecs/rendering.h>
 #include <tiny_obj_loader.h>
+#include <unnecessary/graphics/lighting/lights.h>
 
 #define FLOOR_WIDTH 10
 #define FLOOR_HEIGHT 5
@@ -129,10 +130,27 @@ public:
     void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {
         time += dt * speed;
         un::Translation &tr = *t;
-        tr.value.z = -10 + std::sin(time) * 5;
+        tr.value.z += std::sin(time);
 
     }
 };
+
+struct Rotator : entityx::System<Rotator> {
+private:
+    entityx::ComponentHandle<un::Rotation> t;
+    float time = 0;
+    float speed;
+public:
+    Rotator(const entityx::ComponentHandle<un::Rotation> &t, float speed) : t(t), speed(speed) {}
+
+    void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {
+        time += dt * speed;
+        un::Rotation &tr = *t;
+        tr.value = glm::vec3(0, time, 0);
+
+    }
+};
+
 
 struct Model {
     std::vector<glm::vec3> verts;
@@ -209,7 +227,7 @@ int main() {
                     un::ShaderLayout({})
             )
     );
-    un::ShaderProgram program(shader, "mvpMatrix", "lights");
+    un::ShaderProgram program(shader, "mvpMatrix", "lights", "modelMatrix");
     un::Material material(&program);
 
     un::ecs::register_default_systems(application);
@@ -278,6 +296,7 @@ int main() {
                         glm::vec3(2, 1, 0)
                 }
         );
+
     }
     for (Model &model : import_obj(bunnyFile)) {
         auto e = application.getEntities().create();
@@ -295,17 +314,24 @@ int main() {
         );
         e.assign<un::Scale>(glm::vec3(20, 20, 20));
         e.assign<un::Translation>(
-                glm::vec3(-1, 1, 0)
+                glm::vec3(-1, 1, 1)
         );
+        auto tls = e.assign_from_copy<un::Rotation>(
+                {
+                        glm::vec3(0, 180 * DEG_TO_RAD, 0)
+                }
+        );
+        application.getSystems().add<Rotator>(tls, 1);
+
     }
-    /*auto floorE = application.getEntities().create();
-    floorE.assign<un::ModelToWorld>();
-    floorE.assign_from_copy<un::Drawable>(
-            {
-                    "mvpMatrix",
-                    createFloor(shader)
-            }
-    );*/
+    auto light = application.getEntities().create();
+    light.assign<un::PointLight>(
+            glm::vec3(3, 3, 0),
+            glm::vec3(1, 0, 0),
+            1, 1
+    );
+
+
     systems.add<Closer>(&application);
     application.show();
     application.run();

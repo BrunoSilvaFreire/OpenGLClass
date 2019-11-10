@@ -11,10 +11,12 @@ namespace un {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.1F, 0.1F, 0.1F, 1);
         entityx::ComponentHandle<PointLight> hPoint;
-        std::vector<PointLight *> points;
+        PointLight points[4];
+        uint8_t count = 0;
         for (entityx::Entity _ : entities.entities_with_components(hPoint)) {
-            points.emplace_back(hPoint.get());
-            if (points.size() >= MAX_LIGHTS) {
+            points[count] = *hPoint;
+            count++;
+            if (count >= MAX_LIGHTS) {
                 break;
             }
         }
@@ -43,8 +45,10 @@ namespace un {
 
                 auto mvp = camera.projection * viewMatrix * modelM;
                 glCall(glUseProgram(pid));
-                auto mvpLoc = drawable.geometry.getMaterial().getShaderProgram()->getIndices().mvp;
-                glCall(glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, reinterpret_cast<float *>(&mvp)));
+                auto indices = drawable.geometry.getMaterial().getShaderProgram()->getIndices();
+                glCall(glUniformMatrix4fv(indices.mvp, 1, GL_FALSE, reinterpret_cast<float *>(&mvp)));
+                glCall(glUniformMatrix4fv(indices.model, 1, GL_FALSE, reinterpret_cast<float *>(&modelM)));
+                //glCall(glUniform(indices.lights, 1, GL_FALSE, reinterpret_cast<float *>(&mvp)));
                 geometry.bind();
                 glDrawElements(
                         GL_TRIANGLES,

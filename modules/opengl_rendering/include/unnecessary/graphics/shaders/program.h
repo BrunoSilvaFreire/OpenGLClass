@@ -9,6 +9,7 @@ namespace un {
     public:
         struct ShaderIndices {
             uint32_t mvp{};
+            uint32_t model{};
             uint32_t lights{};
 
             ShaderIndices();
@@ -30,7 +31,8 @@ namespace un {
         explicit ShaderProgram(
                 const un::Shader &shader,
                 const std::string &mvpName,
-                const std::string &lightsName
+                const std::string &lightsName,
+                const std::string &modelName
         );
 
         uint32_t getId() const;
