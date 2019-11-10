@@ -1,6 +1,7 @@
 
 #include <unnecessary/graphics/ecs/rendering.h>
 #include <unnecessary/ecs/common.h>
+#include <unnecessary/graphics/lighting/lights.h>
 
 namespace un {
     RenderingSystem::RenderingSystem(GLFWwindow *wnd) : wnd(wnd) {}
@@ -9,10 +10,10 @@ namespace un {
     RenderingSystem::update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.1F, 0.1F, 0.1F, 1);
-        entityx::ComponentHandle<LightPoint> hPoint;
-        std::vector<LightPoint &> points;
-        for (entityx::Entity _ : entities.entities_with_components(points)) {
-            points.emplace_back(*hPoint);
+        entityx::ComponentHandle<PointLight> hPoint;
+        std::vector<PointLight *> points;
+        for (entityx::Entity _ : entities.entities_with_components(hPoint)) {
+            points.emplace_back(hPoint.get());
             if (points.size() >= MAX_LIGHTS) {
                 break;
             }
@@ -38,11 +39,12 @@ namespace un {
                 Drawable &drawable = *hDrawable;
                 glm::mat4 modelM = hModelMatrix->value;
                 Geometry &geometry = drawable.geometry;
-                auto pid = geometry.getProgram().getId();
+                auto pid = geometry.getMaterial().getShaderProgram()->getId();
 
                 auto mvp = camera.projection * viewMatrix * modelM;
                 glCall(glUseProgram(pid));
-                glCall(glUniformMatrix4fv(drawable.indices.mvp, 1, GL_FALSE, reinterpret_cast<float *>(&mvp)));
+                auto mvpLoc = drawable.geometry.getMaterial().getShaderProgram()->getIndices().mvp;
+                glCall(glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, reinterpret_cast<float *>(&mvp)));
                 geometry.bind();
                 glDrawElements(
                         GL_TRIANGLES,
@@ -61,8 +63,5 @@ namespace un {
 
     }
 
-    DrawableIndices::DrawableIndices(
-            uint32_t mvp,
-            uint32_t lights
-    ) : mvp(mvp), lights(lights) {}
+
 }

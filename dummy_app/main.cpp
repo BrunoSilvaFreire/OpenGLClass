@@ -14,7 +14,7 @@
 #define FLOOR_SIZE 1.0F
 
 un::Geometry createFloor(
-        un::Shader *shader
+        un::Material &material
 ) {
     std::vector<glm::vec3> vertices;
     std::vector<uint32_t> indices;
@@ -52,12 +52,12 @@ un::Geometry createFloor(
             ),
             vertices.data(), vertices.size(),
             indices.data(), indices.size(),
-            un::Material(shader)
+            material
     );
 }
 
 un::Geometry createTriangle(
-        un::Shader *shader
+        un::Material &material
 ) {
 
     std::vector<glm::vec3> triangle = {
@@ -100,7 +100,7 @@ un::Geometry createTriangle(
             ),
             triangle.data(), triangle.size(),
             indices.data(), indices.size(),
-            un::Material(shader)
+            material
     );
 }
 
@@ -154,7 +154,6 @@ std::vector<Model> import_obj(std::filesystem::path file) {
             &warn, &err, file.c_str()
     );
 
-
     std::vector<glm::vec3> vData;
     auto verts = attrib.vertices;
     auto count = verts.size();
@@ -200,7 +199,7 @@ int main() {
     std::filesystem::path resDir = workingDir / "shaders";
     //Allocate on heap
     std::cout << "Using resources located @ " << resDir << std::endl;
-    auto *shader = new un::Shader(
+    un::Shader shader(
             un::Shader::from(
                     resDir / "std.vert",
                     un::ShaderLayout({}),
@@ -210,6 +209,9 @@ int main() {
                     un::ShaderLayout({})
             )
     );
+    un::ShaderProgram program(shader, "mvpMatrix", "lights");
+    un::Material material(&program);
+
     un::ecs::register_default_systems(application);
     un::gl_rendering::register_default_systems(application);
     auto &systems = application.getSystems();
@@ -237,23 +239,13 @@ int main() {
                     100.0F
             }
     );
-    auto material = un::Material(shader);
 
     auto e = application.getEntities().create();
     //systems.add<Sine>(t, 0.01);
     e.assign<un::ModelToWorld>();
-    auto tri = createTriangle(shader);
-    auto pid = tri.getProgram().getId();
-
-    auto mvpLocation = glGetUniformLocation(pid, "mvpMatrix");
-    auto lightsLocation = glGetUniformLocation(pid, "lights");
-
+    auto tri = createTriangle(material);
     e.assign_from_copy<un::Drawable>(
             {
-                    un::DrawableIndices(
-                            mvpLocation,
-                            lightsLocation
-                    ),
                     tri
             }
     );
@@ -270,9 +262,9 @@ int main() {
         auto e = application.getEntities().create();
         e.assign<un::ModelToWorld>();
         e.assign<un::WorldToView>();
+
         e.assign_from_copy<un::Drawable>(
                 {
-                        "mvpMatrix",
                         un::Geometry::from(
                                 vLayout,
                                 model.verts.data(), model.verts.size(),
@@ -293,7 +285,6 @@ int main() {
         e.assign<un::WorldToView>();
         e.assign_from_copy<un::Drawable>(
                 {
-                        "mvpMatrix",
                         un::Geometry::from(
                                 vLayout,
                                 model.verts.data(), model.verts.size(),

@@ -11,19 +11,19 @@
 #include <unnecessary/graphics/utility/debugging.h>
 
 namespace un {
+
     class Geometry {
     private:
         VertexBuffer vBuf;
         IndexBuffer iBuf;
         VertexArrayBuffer vertexArray;
         Material material;
-        ShaderProgram program;
     public:
         Geometry(
-                const VertexBuffer &vBuf,
-                const IndexBuffer &iBuf,
-                const VertexArrayBuffer &vertexArray,
-                const Material &material
+                VertexBuffer vBuf,
+                IndexBuffer iBuf,
+                VertexArrayBuffer vertexArray,
+                Material material
         );
 
         static Geometry from(
@@ -32,7 +32,7 @@ namespace un {
                 size_t vCount,
                 uint32_t *iData,
                 size_t iCount,
-                const Material &material
+                Material material
         );
 
         const VertexBuffer &getVertexBuffer() const;
@@ -42,8 +42,6 @@ namespace un {
         const VertexArrayBuffer &getVertexArray() const;
 
         const Material &getMaterial() const;
-
-        const ShaderProgram &getProgram() const;
 
         void bind() const;
     };

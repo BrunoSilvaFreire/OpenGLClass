@@ -25,10 +25,10 @@ namespace un {
         std::vector<FloatProperty> floats;
         std::vector<IntProperty> ints;
         std::vector<ColorProperty> colors;
-        un::ShaderProgram *shader;
+        const un::ShaderProgram *shader;
     public:
-        Material(
-                Shader *shader,
+        explicit Material(
+                const un::ShaderProgram *shader,
                 std::vector<FloatProperty> floats = {},
                 std::vector<IntProperty> ints = {},
                 std::vector<ColorProperty> colors = {}
@@ -40,7 +40,7 @@ namespace un {
 
         const std::vector<ColorProperty> &getColors() const;
 
-        ShaderProgram *getShader() const;
+        const ShaderProgram *getShaderProgram() const;
     };
 }
 #endif

@@ -8,28 +8,15 @@
 
 #define MAX_LIGHTS 4
 namespace un {
-    struct LightPoint {
-        float intensity, range;
-        glm::vec3 color;
-    };
 
     struct Camera {
         float fieldOfView, nearPlane, farPlane;
         glm::mat4 projection;
     };
 
-    struct DrawableIndices {
-        uint32_t mvp;
-        uint32_t lights;
 
-        DrawableIndices(
-                uint32_t mvp,
-                uint32_t lights
-        );
-    };
 
     struct Drawable {
-        DrawableIndices indices;
         Geometry geometry;
     };
 

@@ -6,14 +6,31 @@
 namespace un {
 
     class ShaderProgram {
+    public:
+        struct ShaderIndices {
+            uint32_t mvp{};
+            uint32_t lights{};
+
+            ShaderIndices();
+
+            ShaderIndices(
+                    uint32_t mvp,
+                    uint32_t lights
+            );
+
+        };
+
     private:
+        ShaderIndices indices;
         uint32_t id;
         uint32_t vShader;
         uint32_t fShader;
         uint32_t gShader;
     public:
         explicit ShaderProgram(
-                const un::Shader &shader
+                const un::Shader &shader,
+                const std::string &mvpName,
+                const std::string &lightsName
         );
 
         uint32_t getId() const;
@@ -21,6 +38,8 @@ namespace un {
         uint32_t getVShader() const;
 
         uint32_t getFShader() const;
+
+        const ShaderIndices &getIndices() const;
     };
 }
 #endif

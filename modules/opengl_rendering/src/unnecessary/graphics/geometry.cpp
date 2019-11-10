@@ -1,15 +1,18 @@
 #include <unnecessary/graphics/geometry.h>
 
+#include <utility>
+
 namespace un {
 
     Geometry::Geometry(
-            const VertexBuffer &vBuf,
-            const IndexBuffer &iBuf,
-            const VertexArrayBuffer &vertexArray,
-            const Material &material
-    )
-            : vBuf(vBuf), iBuf(iBuf), vertexArray(vertexArray), material(material),
-              program(ShaderProgram(*material.getShader())) {}
+            VertexBuffer vBuf,
+            IndexBuffer iBuf,
+            VertexArrayBuffer vertexArray,
+            Material material
+    ) : vBuf(std::move(vBuf)), iBuf(std::move(iBuf)),
+        vertexArray(std::move(vertexArray)), material(std::move(material)) {
+
+    }
 
     Geometry Geometry::from(
             const VertexLayout &layout,
@@ -17,7 +20,7 @@ namespace un {
             size_t vCount,
             uint32_t *iData,
             size_t iCount,
-            const Material &material
+            Material material
     ) {
         VertexBuffer vBuf = VertexBuffer::createAndPush(layout, vData, vCount);
         IndexBuffer iBuf = IndexBuffer::createAndPush(iData, iCount);
@@ -25,7 +28,7 @@ namespace un {
         VertexArrayBuffer::unbind();
         VertexBuffer::unbind();
         IndexBuffer::unbind();
-        return Geometry(vBuf, iBuf, vao, material);
+        return Geometry(vBuf, iBuf, vao, std::move(material));
     }
 
     const VertexBuffer &Geometry::getVertexBuffer() const {
@@ -43,11 +46,6 @@ namespace un {
     const Material &Geometry::getMaterial() const {
         return material;
     }
-
-    const ShaderProgram &Geometry::getProgram() const {
-        return program;
-    }
-
 
     void Geometry::bind() const {
         vertexArray.bind();

@@ -135,4 +135,5 @@ namespace un {
     Rotation::Rotation(const glm::quat &value) : value(value) {}
 
     Translation::Translation(const glm::vec3 &value) : value(value) {}
+
 }

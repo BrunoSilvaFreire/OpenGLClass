@@ -1,8 +1,19 @@
 #include <unnecessary/graphics/shaders/program.h>
 
 namespace un {
+    ShaderProgram::ShaderIndices::ShaderIndices(
+            uint32_t mvp,
+            uint32_t lights
+    ) : mvp(mvp), lights(lights) {}
 
-    ShaderProgram::ShaderProgram(const un::Shader &shader) {
+
+    ShaderProgram::ShaderIndices::ShaderIndices() = default;
+
+    ShaderProgram::ShaderProgram(
+            const un::Shader &shader,
+            const std::string &mvpName,
+            const std::string &lightsName
+    ) : indices() {
         id = glCreateProgram();
         vShader = shader.getVertex().exportShader(GL_VERTEX_SHADER);
         fShader = shader.getFragment().exportShader(GL_FRAGMENT_SHADER);
@@ -33,6 +44,9 @@ namespace un {
 
         }
         glCall(glValidateProgram(id));
+        auto mvp = glGetUniformLocation(id, mvpName.c_str());
+        auto lights = glGetUniformLocation(id, lightsName.c_str());
+        indices = ShaderProgram::ShaderIndices(mvp, lights);
         /*glCall(glDeleteShader(fragmentShaderID));
         glCall(glDeleteShader(vertexShaderID));*/
     }
@@ -47,5 +61,9 @@ namespace un {
 
     uint32_t ShaderProgram::getFShader() const {
         return fShader;
+    }
+
+    const ShaderProgram::ShaderIndices &ShaderProgram::getIndices() const {
+        return indices;
     }
 }

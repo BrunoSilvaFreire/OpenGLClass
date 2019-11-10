@@ -55,7 +55,6 @@ function(unnecessary_app NAME DEPENDENCY_TYPE)
             message(STATUS "+ Resources of '${dep}'")
             get_target_property(FOO_SOURCE_DIR ${subdep} SOURCE_DIR)
             foreach (res ${temp_res})
-                message("${FOO_SOURCE_DIR}/${res} to ${CMAKE_CURRENT_BINARY_DIR}/${res}")
                 add_custom_command(
                         TARGET ${NAME}
                         COMMAND ${CMAKE_COMMAND} -E copy "${FOO_SOURCE_DIR}/${res}" "${CMAKE_CURRENT_BINARY_DIR}/${res}"
