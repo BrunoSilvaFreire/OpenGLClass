@@ -8,9 +8,11 @@ namespace un {
             VertexBuffer vBuf,
             IndexBuffer iBuf,
             VertexArrayBuffer vertexArray,
-            Material material
+            Material material,
+            size_t indicesCount
     ) : vBuf(std::move(vBuf)), iBuf(std::move(iBuf)),
-        vertexArray(std::move(vertexArray)), material(std::move(material)) {
+        vertexArray(std::move(vertexArray)), material(std::move(material)),
+        indicesCount(indicesCount) {
 
     }
 
@@ -28,7 +30,7 @@ namespace un {
         VertexArrayBuffer::unbind();
         VertexBuffer::unbind();
         IndexBuffer::unbind();
-        return Geometry(vBuf, iBuf, vao, std::move(material));
+        return Geometry(vBuf, iBuf, vao, material, iCount);
     }
 
     const VertexBuffer &Geometry::getVertexBuffer() const {
@@ -47,9 +49,11 @@ namespace un {
         return material;
     }
 
+    size_t Geometry::getIndicesCount() const {
+        return indicesCount;
+    }
+
     void Geometry::bind() const {
         vertexArray.bind();
-        vBuf.bind();
-        iBuf.bind();
     }
 }

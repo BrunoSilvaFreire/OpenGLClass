@@ -13,13 +13,20 @@
 #define bind_scope(obj) obj.bind();\
 
 namespace un {
-
-    template<GLenum TARGET>
-    struct BindableMixin {
-    private:
+    struct Identified {
+    protected:
         uint32_t id;
     public:
-        explicit BindableMixin(uint32_t id) : id(id) {}
+        explicit Identified(uint32_t id);
+
+        uint32_t getId() const;
+    };
+
+    template<GLenum TARGET>
+    struct BindableMixin : Identified {
+    private:
+    public:
+        explicit BindableMixin(uint32_t id) : Identified(id) {}
 
         static void unbind() {
             glCall(
@@ -41,6 +48,10 @@ namespace un {
 
         void dispose() {
             glDeleteBuffers(1, &id);
+        }
+
+        uint32_t getId() const {
+            return id;
         }
     };
 }

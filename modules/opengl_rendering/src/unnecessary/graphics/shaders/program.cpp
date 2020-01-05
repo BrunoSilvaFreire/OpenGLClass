@@ -46,8 +46,13 @@ namespace un {
         }
         glCall(glValidateProgram(id));
         indices.mvp = glGetUniformLocation(id, mvpName.c_str());
-        indices.lights = glGetUniformLocation(id, lightsName.c_str());
+        indices.lights = glGetUniformBlockIndex(id, lightsName.c_str());
         indices.model = glGetUniformLocation(id, modelName.c_str());
+        glUniformBlockBinding(
+                id,
+                indices.lights,
+                0
+        );
         /*glCall(glDeleteShader(fragmentShaderID));
         glCall(glDeleteShader(vertexShaderID));*/
     }

@@ -3,14 +3,19 @@ set(
         include/unnecessary/graphics/buffers/index_buffer.h
         include/unnecessary/graphics/buffers/vertex_array_buffer.h
         include/unnecessary/graphics/buffers/vertex_buffer.h
+        include/unnecessary/graphics/buffers/uniform_buffer.h
         src/unnecessary/graphics/buffers/index_buffer.cpp
         src/unnecessary/graphics/buffers/vertex_array_buffer.cpp
         src/unnecessary/graphics/buffers/vertex_buffer.cpp
+        #        src/unnecessary/graphics/buffers/uniform_buffer.cpp
 )
 set(
         OPENGL_RENDERING
-        include/unnecessary/graphics/ecs/rendering.h
-        src/unnecessary/graphics/ecs/rendering.cpp
+        include/unnecessary/graphics/ecs/drawing.h
+        src/unnecessary/graphics/ecs/drawing.cpp
+        include/unnecessary/graphics/ecs/lighting.h
+        include/unnecessary/graphics/ecs/gl.h
+        src/unnecessary/graphics/ecs/gl.cpp
 )
 set(
         OPENGL_MISC
@@ -27,6 +32,7 @@ set(
 
         src/unnecessary/graphics/material.cpp
         src/unnecessary/graphics/geometry.cpp
+        src/unnecessary/graphics/binding.cpp
 )
 set(
         OPENGL_SHADERS

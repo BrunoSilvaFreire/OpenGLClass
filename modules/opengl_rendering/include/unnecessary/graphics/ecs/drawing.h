@@ -1,12 +1,12 @@
-#ifndef UNNECESSARYENGINE_RENDERING_H
-#define UNNECESSARYENGINE_RENDERING_H
+#ifndef UNNECESSARYENGINE_DRAWING_H
+#define UNNECESSARYENGINE_DRAWING_H
 
 #include <entityx/System.h>
 #include <glm/glm.hpp>
 #include <unnecessary/graphics/geometry.h>
+#include <unnecessary/graphics/buffers/uniform_buffer.h>
 #include <unnecessary/application.h>
 
-#define MAX_LIGHTS 4
 namespace un {
 
     struct Camera {
@@ -15,16 +15,26 @@ namespace un {
     };
 
 
-
     struct Drawable {
-        Geometry geometry;
+    public:
+        static Drawable create(Geometry *geom) {
+            auto buf = UniformBuffer::create();
+            return {
+                    geom,
+                    buf
+            };
+        }
+
+        Geometry *geometry;
+        UniformBuffer pointLights;
     };
 
-    struct RenderingSystem : entityx::System<RenderingSystem> {
+
+    struct DrawingSystem : entityx::System<DrawingSystem> {
     private:
         GLFWwindow *wnd;
     public:
-        explicit RenderingSystem(GLFWwindow *wnd);
+        explicit DrawingSystem(GLFWwindow *wnd);
 
 #define PI 3.14159265359F
 #define RAD_TO_DEGREE 57.2957795F
@@ -33,9 +43,7 @@ namespace un {
         void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override;
 
     };
-    namespace gl_rendering {
-        void register_default_systems(un::Application &app);
-    }
+
 }
 
 #endif

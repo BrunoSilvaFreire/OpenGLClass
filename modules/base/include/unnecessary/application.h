@@ -1,8 +1,6 @@
 #ifndef UNNECESSARYENGINE_APPLICATION_H
 #define UNNECESSARYENGINE_APPLICATION_H
 
-#define GLEW_NO_GLU
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>

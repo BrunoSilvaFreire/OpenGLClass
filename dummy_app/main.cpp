@@ -1,13 +1,14 @@
 #include <unnecessary/application.h>
-#include <unnecessary/graphics/graphics.h>
 #include <unnecessary/ecs/common.h>
+#include <unnecessary/graphics/ecs/gl.h>
+#include <unnecessary/graphics/graphics.h>
 #include <array>
 #include <entityx/entityx.h>
 #include <cmath>
 #include <filesystem>
 #include <glm/gtx/string_cast.hpp>
-#include <unnecessary/graphics/ecs/rendering.h>
 #include <tiny_obj_loader.h>
+#include <unnecessary/graphics/ecs/drawing.h>
 #include <unnecessary/graphics/lighting/lights.h>
 
 #define FLOOR_WIDTH 10
@@ -227,7 +228,7 @@ int main() {
                     un::ShaderLayout({})
             )
     );
-    un::ShaderProgram program(shader, "mvpMatrix", "lights", "modelMatrix");
+    un::ShaderProgram program(shader, "mvpMatrix", "Lighting", "modelMatrix");
     un::Material material(&program);
 
     un::ecs::register_default_systems(application);
@@ -262,11 +263,7 @@ int main() {
     //systems.add<Sine>(t, 0.01);
     e.assign<un::ModelToWorld>();
     auto tri = createTriangle(material);
-    e.assign_from_copy<un::Drawable>(
-            {
-                    tri
-            }
-    );
+    e.assign_from_copy(un::Drawable::create(&tri));
     std::filesystem::path assetsDir = workingDir / "assets";
     std::filesystem::path teapotFile = assetsDir / "teapot.obj";
     std::filesystem::path bunnyFile = assetsDir / "bunny.obj";
@@ -280,17 +277,15 @@ int main() {
         auto e = application.getEntities().create();
         e.assign<un::ModelToWorld>();
         e.assign<un::WorldToView>();
-
-        e.assign_from_copy<un::Drawable>(
-                {
-                        un::Geometry::from(
-                                vLayout,
-                                model.verts.data(), model.verts.size(),
-                                model.indices.data(), model.indices.size(),
-                                material
-                        )
-                }
+        auto heo = new un::Geometry(
+                un::Geometry::from(
+                        vLayout,
+                        model.verts.data(), model.verts.size(),
+                        model.indices.data(), model.indices.size(),
+                        material
+                )
         );
+        e.assign_from_copy(un::Drawable::create(heo));
         e.assign_from_copy<un::Translation>(
                 {
                         glm::vec3(2, 1, 0)
@@ -302,15 +297,17 @@ int main() {
         auto e = application.getEntities().create();
         e.assign<un::ModelToWorld>();
         e.assign<un::WorldToView>();
-        e.assign_from_copy<un::Drawable>(
-                {
-                        un::Geometry::from(
-                                vLayout,
-                                model.verts.data(), model.verts.size(),
-                                model.indices.data(), model.indices.size(),
-                                material
+        e.assign_from_copy(
+                un::Drawable::create(
+                        new un::Geometry(
+                                un::Geometry::from(
+                                        vLayout,
+                                        model.verts.data(), model.verts.size(),
+                                        model.indices.data(), model.indices.size(),
+                                        material
+                                )
                         )
-                }
+                )
         );
         e.assign<un::Scale>(glm::vec3(20, 20, 20));
         e.assign<un::Translation>(
@@ -325,11 +322,12 @@ int main() {
 
     }
     auto light = application.getEntities().create();
+    light.assign<un::Translation>(glm::vec3(3, 3, 0));
     light.assign<un::PointLight>(
-            glm::vec3(3, 3, 0),
             glm::vec3(1, 0, 0),
             1, 1
     );
+    systems.add<Sine>(light.component<un::Translation>(), 1);
 
 
     systems.add<Closer>(&application);

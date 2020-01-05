@@ -18,12 +18,14 @@ namespace un {
         IndexBuffer iBuf;
         VertexArrayBuffer vertexArray;
         Material material;
+        size_t indicesCount;
     public:
         Geometry(
                 VertexBuffer vBuf,
                 IndexBuffer iBuf,
                 VertexArrayBuffer vertexArray,
-                Material material
+                Material material,
+                size_t indicesCount
         );
 
         static Geometry from(
@@ -44,6 +46,8 @@ namespace un {
         const Material &getMaterial() const;
 
         void bind() const;
+
+        size_t getIndicesCount() const;
     };
 }
 

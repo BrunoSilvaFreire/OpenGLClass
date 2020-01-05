@@ -23,9 +23,7 @@ void glClearErrors() {
 
 void glCheckErrors(const std::string &functionName) {
     uint32_t error;
-
-    //std::cout << "Calling function " << functionName << "..." << std::endl;
     while ((error = glGetError()) != GLEW_NO_ERROR) {
-        std::cout << "Error while calling function " << functionName << ": " << error << std::endl;
+        std::cerr << "Error while calling function " << functionName << ": " << std::hex << error << std::dec << std::endl;
     }
 }

@@ -1,25 +1,18 @@
 
-#include <unnecessary/graphics/ecs/rendering.h>
+#include <unnecessary/graphics/ecs/drawing.h>
 #include <unnecessary/ecs/common.h>
 #include <unnecessary/graphics/lighting/lights.h>
 
 namespace un {
-    RenderingSystem::RenderingSystem(GLFWwindow *wnd) : wnd(wnd) {}
+    DrawingSystem::DrawingSystem(GLFWwindow *wnd) : wnd(wnd) {}
 
-    void
-    RenderingSystem::update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) {
+    void DrawingSystem::update(
+            entityx::EntityManager &entities,
+            entityx::EventManager &events,
+            entityx::TimeDelta dt
+    ) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.1F, 0.1F, 0.1F, 1);
-        entityx::ComponentHandle<PointLight> hPoint;
-        PointLight points[4];
-        uint8_t count = 0;
-        for (entityx::Entity _ : entities.entities_with_components(hPoint)) {
-            points[count] = *hPoint;
-            count++;
-            if (count >= MAX_LIGHTS) {
-                break;
-            }
-        }
 
         entityx::ComponentHandle<Camera> hCamera;
         entityx::ComponentHandle<WorldToView> hView;
@@ -40,31 +33,30 @@ namespace un {
             for (entityx::Entity e : entities.entities_with_components(hModelMatrix, hDrawable)) {
                 Drawable &drawable = *hDrawable;
                 glm::mat4 modelM = hModelMatrix->value;
-                Geometry &geometry = drawable.geometry;
-                auto pid = geometry.getMaterial().getShaderProgram()->getId();
+                Geometry *geometry = drawable.geometry;
+                auto &material = geometry->getMaterial();
+                auto *program = material.getShaderProgram();
+                auto &indices = program->getIndices();
+                auto pid = program->getId();
 
                 auto mvp = camera.projection * viewMatrix * modelM;
                 glCall(glUseProgram(pid));
-                auto indices = drawable.geometry.getMaterial().getShaderProgram()->getIndices();
                 glCall(glUniformMatrix4fv(indices.mvp, 1, GL_FALSE, reinterpret_cast<float *>(&mvp)));
                 glCall(glUniformMatrix4fv(indices.model, 1, GL_FALSE, reinterpret_cast<float *>(&modelM)));
-                //glCall(glUniform(indices.lights, 1, GL_FALSE, reinterpret_cast<float *>(&mvp)));
-                geometry.bind();
-                glDrawElements(
-                        GL_TRIANGLES,
-                        geometry.getIndexBuffer().getLength(),
-                        GL_UNSIGNED_INT, nullptr
+
+                geometry->bind();
+                glCall(glBindBufferBase(GL_UNIFORM_BUFFER, 0, drawable.pointLights.getId()));
+                glCall(
+                        glDrawElements(
+                                GL_TRIANGLES,
+                                geometry->getIndicesCount(),
+                                GL_UNSIGNED_INT,
+                                nullptr
+                        )
                 );
                 //glDrawArrays(GL_TRIANGLES, 0, 4);
             }
         }
-    }
-
-    void gl_rendering::register_default_systems(un::Application &app) {
-        auto &systems = app.getSystems();
-        auto window = app.getWindow();
-        systems.add<RenderingSystem>(window);
-
     }
 
 
