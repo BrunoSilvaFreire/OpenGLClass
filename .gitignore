@@ -132,3 +132,5 @@ CTestTestfile.cmake
 # Compiled Static libraries
 *.lai
 !modules/opengl_rendering/assets/**/*
+!editor/linux/**/*
+editor/linux/flutter
