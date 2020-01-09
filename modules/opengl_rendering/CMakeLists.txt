@@ -14,6 +14,7 @@ set(
         include/unnecessary/graphics/ecs/drawing.h
         src/unnecessary/graphics/ecs/drawing.cpp
         include/unnecessary/graphics/ecs/lighting.h
+        src/unnecessary/graphics/ecs/lighting.cpp
         include/unnecessary/graphics/ecs/gl.h
         src/unnecessary/graphics/ecs/gl.cpp
 )

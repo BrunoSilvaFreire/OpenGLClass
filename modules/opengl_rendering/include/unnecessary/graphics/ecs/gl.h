@@ -8,6 +8,6 @@
 #include <unnecessary/application.h>
 
 namespace un::gl_rendering {
-    void register_default_systems(un::Application &app);
+    void register_default_systems(un::Application &app, glm::vec3 ambient);
 }
 #endif //UNNECESSARYENGINE_GL_H

@@ -228,13 +228,14 @@ int main() {
                     un::ShaderLayout({})
             )
     );
-    un::ShaderProgram program(shader, "mvpMatrix", "Lighting", "modelMatrix");
+    un::ShaderProgram program(shader, "mvpMatrix", "EntityLighting", "modelMatrix");
     un::Material material(&program);
 
     un::ecs::register_default_systems(application);
-    un::gl_rendering::register_default_systems(application);
+    un::gl_rendering::register_default_systems(application, glm::vec3(0.5, 0.5, 0.5));
     auto &systems = application.getSystems();
-    auto camera = application.getEntities().create();
+    auto &entities = application.getEntities();
+    auto camera = entities.create();
     camera.assign<un::WorldToView>();
     auto t = camera.assign_from_copy<un::Translation>(
             {
@@ -259,7 +260,7 @@ int main() {
             }
     );
 
-    auto e = application.getEntities().create();
+    auto e = entities.create();
     //systems.add<Sine>(t, 0.01);
     e.assign<un::ModelToWorld>();
     auto tri = createTriangle(material);
@@ -274,7 +275,7 @@ int main() {
             }
     );
     for (Model &model : import_obj(teapotFile)) {
-        auto e = application.getEntities().create();
+        auto e = entities.create();
         e.assign<un::ModelToWorld>();
         e.assign<un::WorldToView>();
         auto heo = new un::Geometry(
@@ -294,7 +295,7 @@ int main() {
 
     }
     for (Model &model : import_obj(bunnyFile)) {
-        auto e = application.getEntities().create();
+        auto e = entities.create();
         e.assign<un::ModelToWorld>();
         e.assign<un::WorldToView>();
         e.assign_from_copy(
@@ -318,18 +319,44 @@ int main() {
                         glm::vec3(0, 180 * DEG_TO_RAD, 0)
                 }
         );
-        application.getSystems().add<Rotator>(tls, 1);
+        systems.add<Rotator>(tls, 1);
 
     }
-    auto light = application.getEntities().create();
-    light.assign<un::Translation>(glm::vec3(3, 3, 0));
-    light.assign<un::PointLight>(
-            glm::vec3(1, 0, 0),
-            1, 1
+    std::vector<std::tuple<glm::vec3, glm::vec3>> lights = {
+            {
+                    glm::vec3(0, 1, 1),
+                    glm::vec3(0, 1, 0),
+            },
+            {
+                    glm::vec3(0, 1, 0),
+                    glm::vec3(1, 1, 0),
+            },
+            {
+                    glm::vec3(1, 0, 0),
+                    glm::vec3(-1, -5, 0)
+            }
+    };
+    for (std::tuple<glm::vec3, glm::vec3> l : lights) {
+        auto c = std::get<0>(l);
+        auto p = std::get<1>(l);
+        auto light = entities.create();
+        light.assign<un::Translation>(p);
+        light.assign_from_copy(un::Drawable::create(&tri));
+        light.assign<un::PointLight>(
+                un::Lighting(
+                        c,
+                        1
+                ),
+                1
+        );
+    }
+    auto dLight = entities.create();
+    dLight.assign<un::DirectionalLight>(
+            glm::vec3(-1, -1, -1),
+            un::Lighting(glm::vec3(0.2, 0.2, 0.2), 0.3)
     );
-    systems.add<Sine>(light.component<un::Translation>(), 1);
 
-
+//    systems.add<Sine>(lighting.component<un::Translation>(), 1);
     systems.add<Closer>(&application);
     application.show();
     application.run();
