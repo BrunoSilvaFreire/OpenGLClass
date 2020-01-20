@@ -25,7 +25,7 @@
 namespace {
 
 // Returns the path of the directory containing this executable, or an empty
-// string if the directory cannot be found.
+// string if the directory cannot be found.1
 std::string GetExecutableDirectory() {
   char buffer[PATH_MAX + 1];
   ssize_t length = readlink("/proc/self/exe", buffer, sizeof(buffer));

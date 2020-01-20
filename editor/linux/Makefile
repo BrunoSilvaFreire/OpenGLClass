@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # Executable name.
-BINARY_NAME=shopbuddy
+BINARY_NAME=unnecessary_editor
 # Any extra source files to build.
 EXTRA_SOURCES=
 # Paths of any additional libraries to be bundled in the output directory.
@@ -29,7 +29,7 @@ EXTRA_LDFLAGS=
 # to the Flutter engine in the example shell, and not the complation settings
 # (e.g., optimization level) of the C++ code.
 BUILD=debug
-
+PLUGIN_NAMES=unnecessary_plugin
 FLUTTER_EPHEMERAL_DIR=flutter/ephemeral
 
 # Configuration provided via flutter tool.

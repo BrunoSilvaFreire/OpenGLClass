@@ -11,6 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   rxdart: 0.23.1
+  flutter_form_bloc: any
+  unnecessary_plugin:
+    path: plugin
 dev_dependencies:
   flutter_test:
     sdk: flutter
