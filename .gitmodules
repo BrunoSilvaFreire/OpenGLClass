@@ -10,9 +10,6 @@
 [submodule "thirdparty/entityx"]
 	path = thirdparty/entityx
 	url = https://github.com/alecthomas/entityx
-[submodule "thirdparty/lodepng"]
-	path = thirdparty/lodepng
-	url = https://github.com/lvandeve/lodepng
 [submodule "thirdparty/tinyobjloader"]
 	path = thirdparty/tinyobjloader
 	url = https://github.com/syoyo/tinyobjloader
