@@ -9,7 +9,8 @@
 #include <glm/gtx/string_cast.hpp>
 #include <tiny_obj_loader.h>
 #include <unnecessary/graphics/ecs/drawing.h>
-#include <unnecessary/graphics/lighting/lights.h>
+#include <unnecessary/rendering/lighting/lights.h>
+#include <unnecessary/rendering/ecs/components.h>
 
 #define FLOOR_WIDTH 10
 #define FLOOR_HEIGHT 5

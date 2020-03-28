@@ -9,10 +9,6 @@
 
 namespace un {
 
-    struct Camera {
-        float fieldOfView, nearPlane, farPlane;
-        glm::mat4 projection;
-    };
 
 
     struct Drawable {

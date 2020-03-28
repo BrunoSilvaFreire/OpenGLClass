@@ -27,16 +27,6 @@ target_compile_definitions(
         PUBLIC
         GLEW_NO_GLU
 )
-add_library(
-        lodepng
-        lodepng/lodepng.h
-        lodepng/lodepng.cpp
-)
-target_include_directories(
-        lodepng
-        PUBLIC
-        lodepng
-)
 add_subdirectory(
         tinyobjloader
 )

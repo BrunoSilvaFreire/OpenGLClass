@@ -1,7 +1,8 @@
 
 #include <unnecessary/graphics/ecs/drawing.h>
 #include <unnecessary/ecs/common.h>
-#include <unnecessary/graphics/lighting/lights.h>
+#include <unnecessary/rendering/lighting/lights.h>
+#include <unnecessary/rendering/ecs/components.h>
 
 namespace un {
     DrawingSystem::DrawingSystem(GLFWwindow *wnd) : wnd(wnd) {}

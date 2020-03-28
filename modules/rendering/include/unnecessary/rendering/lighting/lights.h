@@ -53,17 +53,6 @@ namespace un {
         ) : direction(direction), lighting(light) {}
     };
 
-#define POINT_LIGHTS_COUNT 4
-#define DIRECTIONAL_LIGHTS_COUNT 2
 
-    struct EntityLighting {
-
-        PositionedPointLight points[POINT_LIGHTS_COUNT];
-        DirectionalLight directionals[DIRECTIONAL_LIGHTS_COUNT];
-        ALIGN_4F glm::vec3 ambient;
-
-        EntityLighting() : points(), directionals(), ambient() {};
-
-    };
 }
 #endif

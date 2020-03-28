@@ -9,5 +9,7 @@
     <mapping directory="$PROJECT_DIR$/thirdparty/glew/auto/glfixes" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/glfw" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/thirdparty/glm" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/thirdparty/lodepng" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/thirdparty/tinyobjloader" vcs="Git" />
   </component>
 </project>

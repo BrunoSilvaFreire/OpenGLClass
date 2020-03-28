@@ -1,5 +1,4 @@
 #include <unnecessary/application.h>
-
 namespace un {
     Application::Application(glm::u32vec2 size, const std::string &title) : window(nullptr), running(false) {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -24,8 +23,9 @@ namespace un {
                       << glewGetErrorString(glewInitCode) << "'" << std::endl;
             throw std::runtime_error("Error while initializing GLEW");
         }
+
         std::cout << "OpenGL '" << glGetString(GL_VERSION) << "' succesfully initialized (GLFW: "
-                  << glfwGetVersionString()
+                  << glfwGetVersionString() << ", renderer: " << glGetString(GL_RENDERER)
                   << ")" << std::endl;
         //glDepthMask(GL_FALSE);
         glDepthFunc(GL_LESS);
