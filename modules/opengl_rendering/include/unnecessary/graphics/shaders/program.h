@@ -7,6 +7,9 @@ namespace un {
 
     class ShaderProgram {
     public:
+        /**
+         * Stores where common engine data should be bound to be used by the shader.
+         */
         struct ShaderIndices {
             uint32_t mvp{};
             uint32_t model{};

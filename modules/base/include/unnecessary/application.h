@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <entityx/entityx.h>
+#include <unnecessary/graphics/resources.h>
 
 namespace un {
 
@@ -15,6 +16,7 @@ namespace un {
         bool running;
         entityx::EntityX ecs;
     public:
+
         entityx::EntityManager &getEntities();
 
         entityx::SystemManager &getSystems();

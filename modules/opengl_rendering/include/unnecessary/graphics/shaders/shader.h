@@ -14,6 +14,9 @@
 #include <unnecessary/graphics/utility/debugging.h>
 
 namespace un {
+    /**
+     * Stores information about a single field of a shader, typically an uniform or texture.
+     */
     class ShaderElement : LayoutElement {
     private:
         GLenum type;

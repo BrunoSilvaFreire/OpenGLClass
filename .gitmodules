@@ -13,3 +13,6 @@
 [submodule "thirdparty/tinyobjloader"]
 	path = thirdparty/tinyobjloader
 	url = https://github.com/syoyo/tinyobjloader
+[submodule "thirdparty/libspng"]
+	path = thirdparty/libspng
+	url = https://github.com/randy408/libspng/

@@ -7,7 +7,7 @@ namespace un {
         auto &systems = app.getSystems();
         auto window = app.getWindow();
         systems.add<LightingSystem>(ambient);
-        systems.add<DrawingSystem>(window);
+        systems.add<DrawingSystem>(&app);
 
     }
 }

@@ -15,10 +15,13 @@ struct DirectionalLight {
     Lighting lighting;
 };
 
-out vec3 color;
+uniform sampler2D albedo;
+uniform sampler2D normalMap;
 
+out vec3 color;
 in vec3 fragPos;
 in vec3 normal;
+in vec3 uv;
 
 #define DIRECTIONAL_LIGHT_COUNT 2
 #define POINT_LIGHT_COUNT 4

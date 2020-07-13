@@ -14,7 +14,6 @@ namespace un {
         glm::mat4 projection;
     };
 
-
     struct Drawable {
     public:
         static Drawable create(Geometry *geom) {
@@ -29,6 +28,17 @@ namespace un {
         UniformBuffer pointLights;
     };
 
+    struct DrawableLoadingSystem
+            : entityx::System<DrawableLoadingSystem>, public entityx::Receiver<entityx::ComponentAddedEvent<Drawable>> {
+    private:
+        ResourceManager *resourceManager;
+    public:
+        void receive(const entityx::ComponentAddedEvent<Drawable> & event);
+
+        void configure(entityx::EventManager &events) override;
+
+        void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override;
+    };
 
     struct DrawingSystem : entityx::System<DrawingSystem> {
     private:

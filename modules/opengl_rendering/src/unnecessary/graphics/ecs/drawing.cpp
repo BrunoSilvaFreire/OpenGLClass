@@ -60,4 +60,19 @@ namespace un {
     }
 
 
+    void DrawableLoadingSystem::update(
+            entityx::EntityManager &entities,
+            entityx::EventManager &events,
+            entityx::TimeDelta dt
+    ) {
+
+    }
+
+    void DrawableLoadingSystem::configure(entityx::EventManager &events) {
+        events.subscribe<entityx::ComponentAddedEvent<Drawable>>(*this);
+    }
+
+    void DrawableLoadingSystem::receive(const entityx::ComponentAddedEvent<Drawable> &event) {
+
+    }
 }

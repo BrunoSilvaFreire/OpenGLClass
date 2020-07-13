@@ -34,6 +34,12 @@ set(
         src/unnecessary/graphics/material.cpp
         src/unnecessary/graphics/geometry.cpp
         src/unnecessary/graphics/binding.cpp
+
+        include/unnecessary/graphics/gl_loaders.h
+        src/unnecessary/graphics/gl_loaders.cpp
+
+        include/unnecessary/graphics/resources.h
+        src/unnecessary/graphics/resources.cpp
 )
 set(
         OPENGL_SHADERS
@@ -56,7 +62,7 @@ unnecessary_module(
 unnecessary_module_dependencies(
         opengl_rendering
         MODULES base common_ecs
-        LIBS glew_s glfw glm_static entityx
+        LIBS glew_s glfw glm_static entityx spng tinyobjloader
 )
 unnecessary_resources(
         opengl_rendering
@@ -64,6 +70,6 @@ unnecessary_resources(
         shaders/std.frag
         shaders/std.vert
         shaders/std.geom
-        assets/teapot.obj
-        assets/bunny.obj
+        assets/models/teapot.obj
+        assets/models/bunny.obj
 )

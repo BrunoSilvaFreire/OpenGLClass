@@ -17,7 +17,7 @@ namespace un {
     protected:
         uint32_t id;
     public:
-        explicit Identified(uint32_t id);
+        explicit Identified(uint32_t id = -1);
 
         uint32_t getId() const;
     };

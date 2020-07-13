@@ -9,8 +9,9 @@
 #include <glm/gtx/string_cast.hpp>
 #include <tiny_obj_loader.h>
 #include <unnecessary/graphics/ecs/drawing.h>
+#include <unnecessary/graphics/material.h>
 #include <unnecessary/graphics/lighting/lights.h>
-
+#include <unnecessary/graphics/gl_loaders.h>
 #define FLOOR_WIDTH 10
 #define FLOOR_HEIGHT 5
 #define FLOOR_SIZE 1.0F
@@ -49,7 +50,8 @@ un::Geometry createFloor(
     return un::Geometry::from(
             un::VertexLayout(
                     {
-                            un::VertexElement(sizeof(float), 3, GL_FLOAT, false)
+                            un::VertexElement(sizeof(float), 3, GL_FLOAT, false),
+                            un::VertexElement(sizeof(float), 2, GL_FLOAT, false),
                     }
             ),
             vertices.data(), vertices.size(),
@@ -223,16 +225,29 @@ int main() {
                     resDir / "std.vert",
                     un::ShaderLayout({}),
                     resDir / "std.frag",
-                    un::ShaderLayout({}),
+                    un::ShaderLayout(
+                            {
+                                    un::ShaderElement(
+                                            1, 1, GL_TEXTURE_2D
+                                    )
+                            }
+                    ),
                     resDir / "std.geom",
                     un::ShaderLayout({})
             )
     );
     un::ShaderProgram program(shader, "mvpMatrix", "EntityLighting", "modelMatrix");
-    un::Material material(&program);
+    un::Material material(
+            &program,
+            std::vector<un::Material::FloatProperty>(),
+            std::vector<un::Material::IntProperty>(),
+            std::vector<un::Material::ColorProperty>(),
+            {}
+    );
 
     un::ecs::register_default_systems(application);
     un::gl_rendering::register_default_systems(application, glm::vec3(0.5, 0.5, 0.5));
+    un::gl::register_default_loaders(application.getResources());
     auto &systems = application.getSystems();
     auto &entities = application.getEntities();
     auto camera = entities.create();
